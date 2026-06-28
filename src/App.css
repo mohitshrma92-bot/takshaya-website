@@ -1,0 +1,20 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: #f8fafc;
+}
+
+h1 {
+  font-size: 64px;
+  color: #0e2340;
+  margin-bottom: 12px;
+}
+
+p {
+  font-size: 22px;
+  color: #4a4f55;
+}
