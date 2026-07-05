@@ -2,7 +2,7 @@ import logo from "../assets/logo/takshaya-logo.png";
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer id="contact" className="footer">
       <div className="container">
 
         <img
@@ -16,10 +16,9 @@ export default function Footer() {
         </p>
 
         <div className="footer-links">
-          <a href="#">Home</a>
-          <a href="#">Solutions</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
+          <a href="#home">Home</a>
+          <a href="#journey">Journey</a>
+          <a href="#contact">Contact</a>
         </div>
 
         <p>

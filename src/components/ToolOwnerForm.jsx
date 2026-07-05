@@ -4,26 +4,59 @@ export default function ToolOwnerForm() {
       <div className="container">
         <h2>Tool Owner Registration</h2>
 
-        <form className="lead-form">
+        <form
+        className="lead-form"
+        action="https://formsubmit.co/mohitdsharma99@gmail.com"
+        method="POST"
+        >
+        {/* Hidden Settings */}
+        <input type="hidden" name="_captcha" value="false" />
+        <input
+        type="hidden"
+        name="_subject"
+        value="New Tool Owner Registration - Takshaya"
+        />
+        <input type="hidden" name="_template" value="table" />
+        
+        <input 
+        type="text"
+        name="Company Name"
+        placeholder="Company Name"
+        required
+        />
 
-          <input placeholder="Company Name" />
-
-          <input placeholder="Contact Person" />
-
-          <input placeholder="Business Email" />
-
-          <input placeholder="Mobile Number" />
-
-          <textarea
-            placeholder="Tell us about your tooling"
-            rows="5"
-          ></textarea>
-
-          <button className="primary">
-            Register Tool
-          </button>
-
-        </form>
+        <input 
+        type="text"
+        name="Contact Person"
+        placeholder="Contact Person"
+        required
+        />
+        
+        <inpu
+        type="email"
+        name="Business Email"
+        placeholder="Business Email"
+        require
+        />
+        
+        <input
+        type="tel"
+        name="Mobile Number"
+        placeholder="Mobile Number"
+        required
+        />
+        
+        <textarea
+        name="Tool Details"
+        placeholder="Tell us about your tooling (Moulds, Dies, Press Tools, Machine Capacity, Location, etc.)"
+        rows="5"
+        required
+        ></textarea>
+        
+        <button className="primary" type="submit">
+          Register My Tool
+        </button>
+      </form>
       </div>
     </section>
   );

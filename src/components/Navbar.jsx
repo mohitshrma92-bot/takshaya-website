@@ -12,13 +12,13 @@ export default function Navbar() {
         />
 
         <nav>
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Solutions</a>
-          <a href="#">Contact</a>
+          <a href="#home">Home</a>
+          <a href="#industries">Industries</a>
+          <a href="#journey">Journey</a>
+          <a href="#contact">Contact</a>
         </nav>
 
-        <button>Early Access</button>
+        <button className="primary">Early Access</button>
 
       </div>
     </header>

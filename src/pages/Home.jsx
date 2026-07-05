@@ -8,7 +8,6 @@ import LeadCenter from "../components/LeadCenter";
 import ManufacturerForm from "../components/ManufacturerForm";
 import ToolOwnerForm from "../components/ToolOwnerForm";
 import Stats from "../components/Stats";
-import Founder from "../components/Founder";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
       <ManufacturerForm />
       <ToolOwnerForm />
       <Stats />
-      <Founder />
       <Footer />
     </>
   );

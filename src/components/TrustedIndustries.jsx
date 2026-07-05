@@ -9,7 +9,7 @@ export default function TrustedIndustries() {
   ];
 
   return (
-    <section className="trusted">
+    <section id="industries" className="industries">
       <div className="container">
 
         <h2>Industries We Aim to Serve</h2>

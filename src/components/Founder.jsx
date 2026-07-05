@@ -1,17 +1,14 @@
+import founder from "../assets/founder.jpg";
+
 export default function Founder() {
   return (
-    <section className="founder">
+    <section className="founder-section">
       <div className="container founder-grid">
 
         <div className="founder-content">
+          <span className="badge">Founder Vision</span>
 
-          <span className="founder-tag">
-            Founder Vision
-          </span>
-
-          <h2>
-            Why I Started Takshaya
-          </h2>
+          <h2>Why I Started Takshaya</h2>
 
           <p>
             During my years in manufacturing and supply chain, I repeatedly saw
@@ -34,15 +31,14 @@ export default function Founder() {
             <strong>Mohit D. Sharma</strong>
             <span>Founder, Takshaya</span>
           </div>
-
         </div>
 
         <div className="founder-image">
-
-          <div className="image-placeholder">
-            Founder Photo
-          </div>
-
+          <img
+            src={founder}
+            alt="Mohit D. Sharma"
+            className="founder-photo"
+          />
         </div>
 
       </div>
