@@ -76,27 +76,30 @@ nav a:hover{
 
 @media(max-width:768px){
 
-.navbar{
-  padding:10px 0;
-}
-
 .nav{
   flex-direction:column;
-  gap:15px;
+  align-items:center;
+  gap:12px;
 }
 
 .logo{
-  height:34px;
+  height:42px;
 }
 
 nav{
+  display:flex;
   flex-wrap:wrap;
   justify-content:center;
-  gap:10px;
+  gap:14px;
+}
+
+nav a{
+  font-size:14px;
 }
 
 .nav button{
-  width:200px;
+  width:100%;
+  max-width:220px;
 }
 
 }
@@ -638,6 +641,25 @@ gap:18px;
         grid-template-columns:2fr 1fr 1fr;
         gap:40px;
     }
+    @media (max-width:768px){
+
+.footer-grid{
+    grid-template-columns:1fr;
+    text-align:center;
+    gap:30px;
+}
+
+.footer-logo{
+    margin:0 auto 20px;
+    height:50px;
+    width:auto;
+}
+
+.footer a{
+    margin-bottom:8px;
+}
+
+}
 
     .footer h2,
     .footer h3{
@@ -683,7 +705,7 @@ gap:18px;
     .lead-form select,
     .lead-form textarea{
         width:100%;
-        padding:18px;
+        padding:16px;
         border-radius:10px;
         border:1px solid #D1D5DB;
         font-size:16px;
@@ -699,7 +721,11 @@ gap:18px;
 
     .lead-form button{
     width:100%;
+    max-width:300px;
+    margin:20px auto 0;
+    display:block;
 }
+
     .logo{
         height:52px;
         width:auto;
@@ -833,7 +859,8 @@ section p{
 .hero h1{
     color:#fff;
     font-size:26px;
-    line-height:1.2;
+    line-height:1.3;
+    margin-bottom:16px;
 }
 
 .hero-description{
@@ -851,7 +878,7 @@ section p{
 .primary,
 .secondary{
     width:100%;
-    max-width:260px;
+    max-width:240px;
+    text-align:center;
 }
-
 }
