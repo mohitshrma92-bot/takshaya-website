@@ -32,9 +32,9 @@ export default function Journey() {
               <li>✔ Die Casting Tools</li>
             </ul>
 
-            <button className="primary">
-              Request Tooling
-            </button>
+              <a href="#manufacturer" className="primary">
+               Request Tooling
+              </a>
 
           </div>
 
@@ -57,9 +57,9 @@ export default function Journey() {
               <li>✔ Manufacturing Expertise</li>
             </ul>
 
-            <button className="secondary">
-              List My Tool
-            </button>
+              <a href="#toolowner" className="secondary">
+               List My Tool
+              </a>
 
           </div>
 

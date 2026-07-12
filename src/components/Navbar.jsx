@@ -5,20 +5,24 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container nav">
 
-        <img
-          src={logo}
-          alt="Takshaya"
-          className="logo"
+        <a href="#home">
+         <img
+         src={logo}
+         alt="Takshaya"
+         className="logo"
         />
+       </a>
 
         <nav>
           <a href="#home">Home</a>
           <a href="#industries">Industries</a>
           <a href="#journey">Journey</a>
-          <a href="#contact">Contact</a>
+          <a href="#manufacturer">Contact</a>
         </nav>
 
-        <button className="primary">Early Access</button>
+        <a href="#join" className="nav-btn">
+         Early Access
+        </a>
 
       </div>
     </header>

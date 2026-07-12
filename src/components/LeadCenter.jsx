@@ -1,6 +1,6 @@
 export default function LeadCenter() {
   return (
-    <section className="lead-center">
+    <section id="join" className="lead-center">
 
       <div className="container">
 
@@ -23,9 +23,9 @@ export default function LeadCenter() {
               Submit your requirement and we'll connect you with verified partners.
             </p>
 
-            <button className="primary">
+            <a href="#manufacturer" className="primary">
               Request Tooling
-            </button>
+            </a>
 
           </div>
 
@@ -40,9 +40,9 @@ export default function LeadCenter() {
               List your available tooling and reach manufacturers across India.
             </p>
 
-            <button className="secondary">
+            <a href="#toolowner" className="secondary">
               List My Tool
-            </button>
+            </a>
 
           </div>
 

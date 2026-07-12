@@ -1,5 +1,4 @@
 import logo from "../assets/logo/takshaya-logo.png";
-
 export default function Footer() {
   return (
     <footer id="contact" className="footer">
@@ -18,7 +17,7 @@ export default function Footer() {
         <div className="footer-links">
           <a href="#home">Home</a>
           <a href="#journey">Journey</a>
-          <a href="#contact">Contact</a>
+          <a href="#manufacturer">Contact</a>
         </div>
 
         <p>
