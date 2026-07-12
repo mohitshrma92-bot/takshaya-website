@@ -136,7 +136,7 @@ nav a{
 .hero h1 {
   font-size: 62px;
   line-height: 1.1;
-  color: #0E2340;
+  color: #ffffff;
   font-weight: 800;
   margin-bottom: 25px;
   letter-spacing: -1px;
@@ -752,19 +752,12 @@ gap:18px;
   color:white;
 }
 
-.hero h1{
-  color:white;
-  font-size:28px;
-  line-height:1.2;
-  margin-bottom:18px;
-}
-
 .hero-description{
   color:#e2e8f0;
-  font-size:15px;
-  line-height:1.7;
-  max-width:320px;
-  margin:20px auto;
+  font-size:20px;
+  line-height:1.8;
+  max-width:900px;
+  margin:25px auto;
 }
 
 .badge{
@@ -854,12 +847,9 @@ section p{
     min-height:auto;
     padding:70px 20px;
 }
-
 .hero h1{
-    color:#fff;
-    font-size:26px;
-    line-height:1.3;
-    margin-bottom:16px;
+    font-size:32px;
+    line-height:1.2;
 }
 
 .hero-description{

@@ -6,7 +6,7 @@ export default function Hero() {
       id="home"
       className="hero"
       style={{
-        backgroundImage: `linear-gradient(rgba(8,25,52,0.72), rgba(8,25,52,0.72)), url(${heroImage})`,
+        backgroundImage: `linear-gradient(rgba(8,25,52,0.82), rgba(8,25,52,0.82)), url(${heroImage})`,
       }}
     >
       <div className="container hero-content">
@@ -16,9 +16,11 @@ export default function Hero() {
         </span>
 
         <h1>
-          Unlock the Value of
-          <br />
-          Idle Manufacturing Tooling
+         Unlock the Value of
+         <br />
+         Idle Manufacturing
+         <br />
+         Tooling
         </h1>
 
         <p className="hero-description">
