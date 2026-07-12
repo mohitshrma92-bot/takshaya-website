@@ -1,6 +1,6 @@
 export default function ToolOwnerForm() {
   return (
-    <section className="form-section">
+    <section id="toolowner" className="form-section">
       <div className="container">
         <h2>Tool Owner Registration</h2>
 

@@ -1,6 +1,6 @@
 export default function ManufacturerForm() {
   return (
-    <section className="form-section">
+    <section id="manufacturer" className="form-section">
       <div className="container">
         <h2>Manufacturer / Brand Enquiry</h2>
 
