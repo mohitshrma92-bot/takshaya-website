@@ -1,52 +1,43 @@
-export default function Hero(){
+import heroImage from "../assets/hero/hero.png";
 
-return(
+export default function Hero() {
+  return (
+    <section
+      id="home"
+      className="hero"
+      style={{
+        backgroundImage: `linear-gradient(rgba(8,25,52,0.72), rgba(8,25,52,0.72)), url(${heroImage})`,
+      }}
+    >
+      <div className="container hero-content">
 
-<section id="home" className="hero">
+        <span className="badge">
+          🚀 India's Manufacturing Tooling Exchange
+        </span>
 
-<div className="container hero-content">
+        <h1>
+          Unlock the Value of
+          <br />
+          Idle Manufacturing Tooling
+        </h1>
 
-<span className="tag">
+        <p className="hero-description">
+          Takshaya connects manufacturers, brands, tool rooms and tooling
+          owners to reduce tooling costs, unlock idle moulds & dies, and
+          accelerate manufacturing across India.
+        </p>
 
-🚀 Launching Soon
+        <div className="hero-buttons">
+          <a href="#manufacturer" className="primary">
+            Find Tooling
+          </a>
 
-</span>
+          <a href="#toolowner" className="secondary">
+            List Your Tool
+          </a>
+        </div>
 
-<h1>
-
-Unlock the Value of
-
-<span> Idle Manufacturing Tooling</span>
-
-</h1>
-
-<p>
-
-India's digital platform connecting manufacturers,
-brands, tool owners and tool rooms.
-
-</p>
-
-<div className="buttons">
-
-<button className="primary">
-
-Looking for Tooling
-
-</button>
-
-<button className="secondary">
-
-List My Tool
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-)
-
+      </div>
+    </section>
+  );
 }
