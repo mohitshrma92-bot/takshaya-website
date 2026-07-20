@@ -14,6 +14,7 @@ import FactoryAddress from "./pages/FactoryAddress";
 import AuthorizedPerson from "./pages/AuthorizedPerson";
 import ReviewSubmit from "./pages/ReviewSubmit";
 import Dashboard from "./pages/dashboard/Dashboard";
+import ThankYou from "./pages/ThankYou";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/authorized-person" element={<AuthorizedPerson />} />
         <Route path="/review-submit" element={<ReviewSubmit />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/thank-you" element={<ThankYou />} />
       </Routes>
 
     </BrowserRouter>

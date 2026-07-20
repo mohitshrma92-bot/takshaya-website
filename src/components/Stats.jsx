@@ -1,22 +1,26 @@
 export default function Stats() {
   const stats = [
-    {
-      number: "₹250 Cr+",
-      title: "Idle Tooling Potential",
-    },
-    {
-      number: "10,000+",
-      title: "Target Moulds & Dies",
-    },
-    {
-      number: "500+",
-      title: "Target Tool Rooms",
-    },
-    {
-      number: "100+",
-      title: "Manufacturers Onboarding",
-    },
-  ];
+  {
+    number: "₹50,000+ Cr",
+    title: "Idle Tooling Potential",
+    description: "Untapped manufacturing assets across India.",
+  },
+  {
+    number: "100,000+",
+    title: "Digital Tool Inventory",
+    description: "Building India's largest tooling inventory.",
+  },
+  {
+    number: "10,000+",
+    title: "Target Tool Rooms",
+    description: "Connecting verified tooling partners.",
+  },
+  {
+    number: "50,000+",
+    title: "Manufacturing Partners",
+    description: "Helping manufacturers scale faster.",
+  },
+];
 
   return (
     <section className="stats">
@@ -32,7 +36,10 @@ export default function Stats() {
           {stats.map((item) => (
             <div className="stat-card" key={item.title}>
               <h3>{item.number}</h3>
-              <p>{item.title}</p>
+
+              <h4>{item.title}</h4>
+
+              <p>{item.description}</p>
             </div>
           ))}
         </div>

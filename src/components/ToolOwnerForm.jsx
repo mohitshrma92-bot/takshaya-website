@@ -9,12 +9,17 @@ export default function ToolOwnerForm() {
         action="https://formsubmit.co/mohitdsharma99@gmail.com"
         method="POST"
         >
-        {/* Hidden Settings */}
         <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
         <input
         type="hidden"
         name="_subject"
         value="New Tool Owner Registration - Takshaya"
+        />
+        <input
+        type="hidden"
+        name="_next"
+        value="https://www.takshaya.com/thank-you"
         />
         <input type="hidden" name="_template" value="table" />
         
@@ -32,11 +37,11 @@ export default function ToolOwnerForm() {
         required
         />
         
-        <inpu
+        <input
         type="email"
         name="Business Email"
         placeholder="Business Email"
-        require
+        required
         />
         
         <input
