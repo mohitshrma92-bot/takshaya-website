@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo/takshaya-logo.png";
 
 export default function Navbar() {
@@ -5,13 +6,13 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container nav">
 
-        <a href="#home">
-         <img
-         src={logo}
-         alt="Takshaya"
-         className="logo"
-        />
-       </a>
+        <Link to="/">
+          <img
+            src={logo}
+            alt="Takshaya"
+            className="logo"
+          />
+        </Link>
 
         <nav>
           <a href="#home">Home</a>
@@ -20,9 +21,19 @@ export default function Navbar() {
           <a href="#manufacturer">Contact</a>
         </nav>
 
-        <a href="#join" className="nav-btn">
-         Early Access
-        </a>
+        <div className="nav-actions">
+
+          <Link to="/login" className="nav-login">
+            Login
+          </Link>
+
+          <Link to="/signup">
+            <button className="nav-signup">
+              Sign Up
+            </button>
+          </Link>
+
+        </div>
 
       </div>
     </header>
