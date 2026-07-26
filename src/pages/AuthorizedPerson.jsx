@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import AuthInput from "../components/auth/AuthInput";
 import AuthButton from "../components/auth/AuthButton";
 import logo from "../assets/logo/takshaya-logo.png";
 
 export default function AuthorizedPerson() {
+
+  const navigate = useNavigate();
+
   return (
     <AuthLayout
       left={
@@ -42,48 +45,103 @@ export default function AuthorizedPerson() {
           />
 
           <div className="upload-box">
+
             <h4>Government ID</h4>
 
             <p>
               Upload Aadhaar / Passport / Driving Licence
+              <br />
               (Optional)
             </p>
 
             <input type="file" />
+
+          </div>
+
+          <div className="upload-box">
+
+            <h4>Profile Photo</h4>
+
+            <p>
+              Upload Passport Size Photograph
+              <br />
+              (Optional)
+            </p>
+
+            <input type="file" />
+
           </div>
 
           <div className="button-group">
-            <Link to="/factory-address">
-              <button className="secondary-btn">
-                ← Back
-              </button>
-            </Link>
-          </div>
 
-          <Link to="/review-submit">
-            <AuthButton>
+            <AuthButton
+              variant="secondary"
+              onClick={() => navigate("/factory-address")}
+            >
+              ← Back
+            </AuthButton>
+
+            <AuthButton
+              onClick={() => navigate("/review-submit")}
+            >
               Continue →
             </AuthButton>
-          </Link>
+
+          </div>
+
         </>
       }
 
       right={
-        <>
-          <h2>Account Security</h2>
+        <div className="auth-right-content">
+
+          <h1>Authorized Representative</h1>
 
           <p>
-            The authorized representative becomes the primary
-            administrator for your company's Takshaya account.
+            This person will represent your company on Takshaya and manage
+            verification, customer communication and business approvals.
           </p>
 
-          <ul className="feature-list">
-            <li>✓ Account Ownership</li>
-            <li>✓ Secure Communication</li>
-            <li>✓ Order Approval Rights</li>
-            <li>✓ Trust Score +10</li>
-          </ul>
-        </>
+          <div className="auth-features">
+
+            <div className="feature-item">
+              ✓ Company Administrator
+            </div>
+
+            <div className="feature-item">
+              ✓ Secure Communication
+            </div>
+
+            <div className="feature-item">
+              ✓ Order Approval Rights
+            </div>
+
+            <div className="feature-item">
+              ✓ Trust Score +10
+            </div>
+
+          </div>
+
+          <div className="auth-stats">
+
+            <div>
+              <h3>1</h3>
+              <span>Representative</span>
+            </div>
+
+            <div>
+              <h3>100%</h3>
+              <span>Secure</span>
+            </div>
+
+            <div>
+              <h3>Verified</h3>
+              <span>Identity</span>
+            </div>
+
+          </div>
+
+        </div>
       }
     />
   );

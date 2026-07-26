@@ -1,58 +1,53 @@
-import logo from "../../assets/logo/takshaya-logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import OnboardingLayout from "../../layouts/OnboardingLayout";
 import AuthButton from "../../components/auth/AuthButton";
+import logo from "../../assets/logo/takshaya-logo.png";
 
 export default function VerifyEmail() {
+  const navigate = useNavigate();
   return (
-    <div className="auth-page">
+    <OnboardingLayout
+      step={1}
+      left={
+        <>
+          <img
+            src={logo}
+            alt="Takshaya"
+            className="auth-logo-image"
+          />
 
-      <div className="auth-left">
-
-        <img
-         src={logo}
-         alt="Takshaya"
-         className="auth-logo-image"
-        />
-
-        <h2>Verify Your Business Email</h2>
-
-        <p>
-          We've sent a verification email to your registered business email address.
-        </p>
-
-        <div className="verify-card">
-
-          <div className="verify-icon">
-            📧
-          </div>
-
-          <h3>Check Your Inbox</h3>
+          <h2>Check Your Email</h2>
 
           <p>
-            Click the verification link in your email to continue.
+            We've sent a verification link to your registered business email.
           </p>
 
-          <AuthButton>
-            Continue
-          </AuthButton>
+          <div className="verify-card">
+            <div className="verify-icon">📧</div>
 
-          <button className="text-button">
-            Resend Verification Email
-          </button>
+            <h3>Verify your email</h3>
 
-        </div>
+            <p>
+              Click the verification link in your inbox to continue your company
+              registration.
+            </p>
 
-      </div>
+            <AuthButton
+              onClick={() => navigate("/company-profile")}
+            >
+              I've Verified My Email →
+            </AuthButton>
 
-      <div className="auth-right">
+            <button className="text-button">
+              Resend Verification Email
+            </button>
+          </div>
 
-        <h2>Almost There!</h2>
-
-        <p>
-          Email verification helps us ensure that every company on Takshaya is genuine before entering our verified manufacturing network.
-        </p>
-
-      </div>
-
-    </div>
+          <div className="auth-footer">
+            <Link to="/login">← Back to Login</Link>
+          </div>
+        </>
+      }
+    />
   );
 }

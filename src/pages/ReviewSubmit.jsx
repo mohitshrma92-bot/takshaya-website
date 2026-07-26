@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import AuthButton from "../components/auth/AuthButton";
 import logo from "../assets/logo/takshaya-logo.png";
 
 export default function ReviewSubmit() {
+
+  const navigate = useNavigate();
+
   return (
     <AuthLayout
       left={
@@ -14,49 +17,82 @@ export default function ReviewSubmit() {
             className="auth-logo-image"
           />
 
-          <h2>Review Your Information</h2>
+          <h2>Review & Submit</h2>
 
           <p>
-            Please verify your company details before submitting them for verification.
+            Review all your company details before submitting them for verification. You can edit any section if required.
           </p>
 
           <div className="review-card">
 
-            <h3>Company Information</h3>
-
             <div className="review-row">
-              <span>Company</span>
-              <strong>ABC Engineering Pvt Ltd</strong>
-            </div>
-
-            <div className="review-row">
-              <span>GST</span>
-              <strong>27ABCDE1234F1Z5</strong>
-            </div>
-
-            <div className="review-row">
-              <span>PAN</span>
-              <strong>ABCDE1234F</strong>
-            </div>
-
-            <div className="review-row">
-              <span>UDYAM</span>
-              <strong>UDYAM-MH-00-0000000</strong>
+              <span>Company Profile</span>
+              <button
+                className="edit-btn"
+                onClick={() => navigate("/company-profile")}
+              >
+               Edit
+            </button>
             </div>
 
             <div className="review-row">
               <span>Business Roles</span>
-              <strong>Manufacturer, Tool Owner</strong>
+              <button
+               className="edit-btn"
+               onClick={() => navigate("/business-roles")}
+             >
+              Edit
+            </button>
             </div>
 
             <div className="review-row">
-              <span>Factory</span>
-              <strong>Mumbai, Maharashtra</strong>
+              <span>GST Verification</span>
+              <button
+                className="edit-btn"
+                onClick={() => navigate("/gst-verification")}
+              >
+                Edit
+              </button>
             </div>
 
             <div className="review-row">
-              <span>Representative</span>
-              <strong>John Sharma</strong>
+              <span>PAN Verification</span>
+              <button
+               className="edit-btn"
+               onClick={() => navigate("/pan-verification")}
+              >
+               Edit
+              </button>
+            </div>
+
+            <div className="review-row">
+              <span>UDYAM Registration</span>
+              <button
+                className="edit-btn"
+                onClick={() => navigate("/udyam-verification")}
+              >
+                Edit
+              </button>
+            </div>
+
+            <div className="review-row">
+              <span>Factory Address</span>
+              <button
+                className="edit-btn"
+                onClick={() => navigate("/factory-address")}
+              >
+                Edit
+              </button>
+            </div>
+
+            <div className="review-row">
+              <span>Authorized Representative</span>
+              <button
+                className="edit-btn"
+                onClick={() => navigate("/authorized-person")}
+              >
+                Edit
+              </button>
             </div>
 
           </div>
@@ -65,51 +101,85 @@ export default function ReviewSubmit() {
 
             <label>
               <input type="checkbox" />
-              I confirm all information provided is correct.
+              I certify that all information provided is accurate.
             </label>
 
             <label>
               <input type="checkbox" />
-              I agree to Takshaya Terms & Conditions.
+              I agree to the Takshaya Terms & Conditions.
             </label>
 
           </div>
 
           <div className="button-group">
 
-            <Link to="/authorized-person">
-              <button className="secondary-btn">
-                ← Back
-              </button>
-            </Link>
+            <AuthButton
+              variant="secondary"
+              onClick={() => navigate("/authorized-person")}
+            >
+              ← Back
+            </AuthButton>
+
+            <AuthButton
+              onClick={() => navigate("/thank-you")}
+            >
+              Submit for Verification →
+            </AuthButton>
 
           </div>
-
-          <Link to="/verification-submitted">
-            <AuthButton>
-              Submit For Verification
-            </AuthButton>
-          </Link>
 
         </>
       }
 
       right={
-        <>
-          <h2>Almost Done 🎉</h2>
+        <div className="auth-right-content">
+
+          <h1>Ready for Company Verification</h1>
 
           <p>
-            Once submitted, our verification team reviews your documents.
+            Once submitted, our verification team will review your business documents and activate your Takshaya account.
           </p>
 
-          <ul className="feature-list">
-            <li>✓ Verification in 24–48 Hours</li>
-            <li>✓ Unlock Marketplace</li>
-            <li>✓ Trusted Company Badge</li>
-            <li>✓ Buyer & Supplier Network Access</li>
-          </ul>
+          <div className="auth-features">
 
-        </>
+            <div className="feature-item">
+              ✓ Company Verification
+            </div>
+
+            <div className="feature-item">
+              ✓ Trusted Marketplace
+            </div>
+
+            <div className="feature-item">
+              ✓ Secure Transactions
+            </div>
+
+            <div className="feature-item">
+              ✓ Verified Manufacturing Network
+            </div>
+
+          </div>
+
+          <div className="auth-stats">
+
+            <div>
+              <h3>24–48 Hours</h3>
+              <span>Verification Time</span>
+            </div>
+
+            <div>
+              <h3>100%</h3>
+              <span>Secure</span>
+            </div>
+
+            <div>
+              <h3>500+</h3>
+              <span>Verified Companies</span>
+            </div>
+
+          </div>
+
+        </div>
       }
     />
   );

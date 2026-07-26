@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
-import AuthLayout from "../../layouts/AuthLayout";
+import { useNavigate } from "react-router-dom";
+import OnboardingLayout from "../../layouts/OnboardingLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import logo from "../../assets/logo/takshaya-logo.png";
 
 export default function GSTVerification() {
+  const navigate = useNavigate();
+
   return (
-    <AuthLayout
+    <OnboardingLayout
+      step={4}
       left={
         <>
           <img
@@ -18,7 +21,7 @@ export default function GSTVerification() {
           <h2>GST Verification</h2>
 
           <p>
-            Verify your business using a valid GST registration.
+            Enter your GSTIN to verify your registered business.
           </p>
 
           <AuthInput
@@ -26,44 +29,20 @@ export default function GSTVerification() {
             placeholder="27ABCDE1234F1Z5"
           />
 
-          <div className="upload-box">
+          <AuthButton
+            onClick={() => navigate("/pan-verification")}
+          >
+            Verify GST →
+          </AuthButton>
 
-            <h4>GST Certificate</h4>
-
-            <p>
-              Upload GST Registration Certificate
-            </p>
-
-            <input type="file" />
-
+          <div className="auth-back">
+            <button
+              className="text-button"
+              onClick={() => navigate("/business-roles")}
+            >
+              ← Back
+            </button>
           </div>
-
-          <Link to="/pan-verification">
-            <AuthButton>
-              Continue →
-            </AuthButton>
-          </Link>
-
-        </>
-      }
-
-      right={
-        <>
-          <h2>Why GST Verification?</h2>
-
-          <p>
-            GST verification confirms that your business
-            is legally registered and eligible to trade
-            within Takshaya's manufacturing ecosystem.
-          </p>
-
-          <ul className="feature-list">
-            <li>✓ Business Authenticity</li>
-            <li>✓ Verified Company Name</li>
-            <li>✓ State Verification</li>
-            <li>✓ Trust Score +10</li>
-          </ul>
-
         </>
       }
     />

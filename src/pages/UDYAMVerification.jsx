@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import AuthInput from "../components/auth/AuthInput";
 import AuthButton from "../components/auth/AuthButton";
 import logo from "../assets/logo/takshaya-logo.png";
 
 export default function UDYAMVerification() {
+  const navigate = useNavigate();
+
   return (
     <AuthLayout
       left={
@@ -49,18 +51,21 @@ export default function UDYAMVerification() {
           </div>
 
           <div className="button-group">
-            <Link to="/pan-verification">
-              <button className="secondary-btn">
-                ← Back
-              </button>
-            </Link>
-          </div>
 
-          <Link to="/factory-address">
-            <AuthButton>
+            <AuthButton
+              variant="secondary"
+              onClick={() => navigate("/pan-verification")}
+            >
+              ← Back
+            </AuthButton>
+
+            <AuthButton
+              onClick={() => navigate("/factory-address")}
+            >
               Continue →
             </AuthButton>
-          </Link>
+
+          </div>
         </>
       }
 

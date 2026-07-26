@@ -63,11 +63,24 @@ export default function Login() {
          </p>
 
          <div className="auth-features">
-         <div>✓ Verified Manufacturers</div>
-         <div>✓ Verified Tool Rooms</div>
-         <div>✓ Secure Collaboration</div>
-         <div>✓ Faster Tool Procurement</div>
-      </div>
+
+         <div className="feature-item">
+          ✓ Verified Manufacturers
+         </div>
+
+         <div className="feature-item">
+          ✓ Verified Tool Rooms
+         </div>
+
+         <div className="feature-item">
+          ✓ Secure Collaboration
+         </div>
+
+         <div className="feature-item">
+          ✓ Faster Tool Procurement
+         </div>
+
+       </div>
 
       <div className="auth-stats">
          <div>
@@ -85,6 +98,9 @@ export default function Login() {
           <span>Manufacturers</span>
          </div>
         </div>
+        <p className="auth-trust">
+          Trusted by India's growing manufacturing ecosystem.
+        </p>
 
       </div>
      }

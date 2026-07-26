@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import AuthInput from "../components/auth/AuthInput";
 import AuthButton from "../components/auth/AuthButton";
 import logo from "../assets/logo/takshaya-logo.png";
 
 export default function FactoryAddress() {
+  const navigate = useNavigate();
+
   return (
     <AuthLayout
       left={
@@ -48,30 +50,31 @@ export default function FactoryAddress() {
 
           <div className="button-group">
 
-            <Link to="/udyam-verification">
-              <button className="secondary-btn">
-                ← Back
-              </button>
-            </Link>
+            <AuthButton
+              variant="secondary"
+              onClick={() => navigate("/udyam-verification")}
+            >
+              ← Back
+            </AuthButton>
 
-          </div>
-
-          <Link to="/authorized-person">
-            <AuthButton>
+            <AuthButton
+              onClick={() => navigate("/authorized-person")}
+            >
               Continue →
             </AuthButton>
-          </Link>
 
+          </div>
         </>
       }
 
       right={
-        <>
-          <h2>Location Matters</h2>
+        <div className="auth-right-content">
+
+          <h1>Location Matters</h1>
 
           <p>
-            Your verified manufacturing location increases buyer confidence and
-            helps customers find suppliers nearby.
+            Your verified manufacturing location increases buyer confidence
+            and helps customers find suppliers nearby.
           </p>
 
           <ul className="feature-list">
@@ -81,7 +84,7 @@ export default function FactoryAddress() {
             <li>✓ Trust Score +15</li>
           </ul>
 
-        </>
+        </div>
       }
     />
   );

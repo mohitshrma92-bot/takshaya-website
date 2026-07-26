@@ -57,8 +57,10 @@ export default function PANVerification() {
             </Link>
 
             <Link to="/udyam-verification">
-              <AuthButton>
-                Continue →
+              <AuthButton
+              onClick={() => navigate("/udyam-verification")}
+              >
+               Verify PAN →
               </AuthButton>
             </Link>
           </div>
