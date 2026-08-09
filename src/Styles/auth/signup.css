@@ -1,0 +1,35 @@
+/* =====================================================
+   SIGNUP
+===================================================== */
+
+.signup-description {
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.signup-terms {
+  margin: 20px 0 25px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+.signup-terms a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-terms a:hover {
+  text-decoration: underline;
+}
+.auth-error {
+  margin: 10px 0 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #B91C1C;
+  font-size: 14px;
+  line-height: 1.5;
+}

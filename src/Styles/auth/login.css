@@ -1,0 +1,105 @@
+/* =====================================================
+   LOGIN / SHARED AUTH CONTENT
+===================================================== */
+
+.auth-logo-image {
+  width: 170px;
+  height: auto;
+
+  object-fit: contain;
+
+  margin-bottom: 40px;
+}
+
+.auth-left h2 {
+  font-size: 38px;
+  line-height: 1.2;
+
+  color: var(--primary);
+
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  font-size: 20px;
+  color: var(--accent);
+
+  margin-bottom: 15px;
+}
+
+.login-description {
+  color: var(--text-light);
+
+  line-height: 1.8;
+
+  margin-bottom: 35px;
+}
+
+/* =====================================================
+   REMEMBER ME
+===================================================== */
+
+.remember-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 20px 0 35px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 15px;
+  color: #475569;
+}
+
+.remember-me input {
+  width: 16px;
+  height: 16px;
+
+  accent-color: var(--accent);
+
+  cursor: pointer;
+}
+
+.remember-row a {
+  color: var(--accent);
+
+  text-decoration: none;
+
+  font-weight: 600;
+}
+
+.remember-row a:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.auth-footer {
+  margin-top: 30px;
+
+  text-align: center;
+
+  color: var(--text-light);
+
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: var(--accent);
+
+  text-decoration: none;
+
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}

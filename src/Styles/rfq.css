@@ -1,0 +1,81 @@
+.rfq-page{
+
+max-width:900px;
+
+margin:auto;
+
+padding:40px;
+
+}
+
+.rfq-page h1{
+
+font-size:42px;
+
+color:#0E2340;
+
+margin-bottom:10px;
+
+}
+
+.rfq-page p{
+
+color:#64748B;
+
+margin-bottom:40px;
+
+}
+
+.rfq-form{
+
+display:grid;
+
+gap:20px;
+
+}
+
+.rfq-form input,
+.rfq-form select,
+.rfq-form textarea{
+
+padding:16px;
+
+border:1px solid #CBD5E1;
+
+border-radius:14px;
+
+font-size:15px;
+
+}
+
+.rfq-form textarea{
+
+resize:none;
+
+}
+
+.rfq-form button{
+
+background:#0E2340;
+
+color:white;
+
+border:none;
+
+padding:18px;
+
+font-size:16px;
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.rfq-form button:hover{
+
+background:#2563EB;
+
+}

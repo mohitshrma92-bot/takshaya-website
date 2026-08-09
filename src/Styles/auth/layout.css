@@ -1,0 +1,131 @@
+/* =====================================================
+   TAKSHAYA AUTH LAYOUT
+===================================================== */
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =====================================================
+   LEFT PANEL
+===================================================== */
+
+.auth-left {
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+}
+
+.auth-left-content {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* =====================================================
+   RIGHT PANEL
+===================================================== */
+
+.auth-right {
+  background: linear-gradient(
+    135deg,
+    #0E2340 0%,
+    #173456 45%,
+    #2563EB 100%
+  );
+
+  color: var(--white);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 70px;
+}
+
+.auth-right-content {
+  width: 100%;
+  max-width: 520px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* =====================================================
+   RIGHT PANEL TYPOGRAPHY
+===================================================== */
+
+.auth-right-content h1 {
+  font-size: 52px;
+  line-height: 1.15;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.auth-right-content p {
+  font-size: 18px;
+  color: #CBD5E1;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* =====================================================
+   AUTH FEATURES
+===================================================== */
+
+.auth-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0 25px;
+}
+
+.feature-item {
+  font-size: 15px;
+  color: #FFFFFF;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   AUTH STATS
+===================================================== */
+
+.auth-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.auth-stats h3 {
+  font-size: 24px;
+  margin-bottom: 4px;
+  color: #FFFFFF;
+}
+
+.auth-stats span {
+  font-size: 13px;
+  color: #CBD5E1;
+}
+
+.auth-trust {
+  margin-top: 25px;
+  font-size: 14px !important;
+  color: #CBD5E1 !important;
+}
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.auth-logo-image {
+  width: 170px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 40px;
+}

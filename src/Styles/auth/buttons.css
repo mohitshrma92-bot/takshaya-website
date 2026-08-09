@@ -1,0 +1,58 @@
+/* =====================================================
+   AUTH BUTTON
+===================================================== */
+
+.auth-button {
+  width: 100%;
+  height: 56px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #0E2340,
+    #2563EB
+  );
+
+  color: #FFFFFF;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.25);
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, 0.30);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-button.secondary {
+  background: var(--white);
+  color: var(--primary);
+
+  border: 1px solid #CBD5E1;
+
+  box-shadow: none;
+}
+
+.auth-button.secondary:hover {
+  background: #F8FAFC;
+}
