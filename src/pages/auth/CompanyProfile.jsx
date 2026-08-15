@@ -161,7 +161,7 @@ export default function CompanyProfile() {
       aboutBusiness: formData.aboutBusiness,
     });
 
-    navigate("/gst-verification");
+    navigate("/business-roles");
   };
 
   /*
@@ -171,7 +171,7 @@ export default function CompanyProfile() {
    */
 
   const handleBack = () => {
-    navigate("/business-roles");
+    navigate("/verify-email");
   };
 
   /*

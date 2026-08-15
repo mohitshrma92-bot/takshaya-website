@@ -178,13 +178,15 @@
 ===================================================== */
 
 .button-group {
-  display: grid;
-
-  grid-template-columns: 150px 1fr;
-
+  display: flex;
+  align-items: center;
   gap: 14px;
-
+  width: 100%;
   margin-top: 10px;
+}
+.button-group > * {
+  flex: 1;
+  min-width: 0;
 }
 
 /* =====================================================
