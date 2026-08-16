@@ -9,56 +9,32 @@ import { useOnboarding } from "../../context/OnboardingContext";
 export default function VerifyEmail() {
   const navigate = useNavigate();
   const { onboarding, updateSection } = useOnboarding();
+
   const [email, setEmail] = useState(onboarding.account.email || "");
+  const [otp, setOtp] = useState("");
   const [checking, setChecking] = useState(false);
   const [resending, setResending] = useState(false);
   const [resendSeconds, setResendSeconds] = useState(0);
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [status, setStatus] = useState({
+    type: "",
+    message: "",
+  });
 
+  /*
+   * Load the email from the onboarding context.
+   * We do NOT require an active auth session here because
+   * Supabase can have a user waiting for email verification
+   * without an active authenticated session.
+   */
   useEffect(() => {
-    let mounted = true;
+    if (onboarding.account.email) {
+      setEmail(onboarding.account.email);
+    }
+  }, [onboarding.account.email]);
 
-    const loadUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!mounted) return;
-
-      if (data.user?.email) {
-        setEmail(data.user.email);
-      }
-
-      if (data.user?.email_confirmed_at) {
-        updateSection("account", {
-          email: data.user.email,
-          accountCreated: true,
-          emailVerified: true,
-        });
-      }
-    };
-
-    loadUser();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (!mounted || !session?.user) return;
-
-        setEmail(session.user.email || "");
-
-        if (session.user.email_confirmed_at) {
-          updateSection("account", {
-            email: session.user.email,
-            accountCreated: true,
-            emailVerified: true,
-          });
-        }
-      }
-    );
-
-    return () => {
-      mounted = false;
-      listener.subscription.unsubscribe();
-    };
-  }, [updateSection]);
-
+  /*
+   * Resend countdown
+   */
   useEffect(() => {
     if (resendSeconds <= 0) return undefined;
 
@@ -69,59 +45,154 @@ export default function VerifyEmail() {
     return () => window.clearInterval(timer);
   }, [resendSeconds]);
 
-  const checkVerification = async () => {
-    setChecking(true);
-    setStatus({ type: "", message: "" });
+  /*
+   * Handle OTP input
+   */
+  const handleOtpChange = (event) => {
+    const value = event.target.value
+      .replace(/\D/g, "")
+      .slice(0, 6);
 
-    const { data, error } = await supabase.auth.getUser();
+    setOtp(value);
 
-    if (error) {
-      setStatus({ type: "error", message: error.message });
-      setChecking(false);
+    if (status.message) {
+      setStatus({
+        type: "",
+        message: "",
+      });
+    }
+  };
+
+  /*
+   * Verify the 6-digit OTP using Supabase
+   */
+  const verifyEmail = async () => {
+    if (!email) {
+      setStatus({
+        type: "error",
+        message: "Email address is missing. Please return to signup and try again.",
+      });
       return;
     }
 
-    if (data.user?.email_confirmed_at) {
+    if (otp.length !== 6) {
+      setStatus({
+        type: "error",
+        message: "Please enter the 6-digit verification code.",
+      });
+      return;
+    }
+
+    setChecking(true);
+    setStatus({
+      type: "",
+      message: "",
+    });
+
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: otp,
+        type: "email",
+      });
+
+      if (error) {
+        setStatus({
+          type: "error",
+          message:
+            error.message ||
+            "The verification code is invalid or has expired.",
+        });
+        setChecking(false);
+        return;
+      }
+
+      if (!data?.user) {
+        setStatus({
+          type: "error",
+          message:
+            "Email verification could not be completed. Please try again.",
+        });
+        setChecking(false);
+        return;
+      }
+
+      /*
+       * Save verification state in onboarding context
+       */
       updateSection("account", {
-        email: data.user.email,
+        email: data.user.email || email,
         accountCreated: true,
         emailVerified: true,
       });
-      setStatus({ type: "success", message: "Email verified successfully." });
-      setChecking(false);
-      navigate("/business-roles");
-      return;
-    }
 
-    setStatus({
-      type: "error",
-      message: "Your email is not verified yet. Open the latest verification email and click the verification link, then try again.",
-    });
-    setChecking(false);
+      setStatus({
+        type: "success",
+        message: "Email verified successfully.",
+      });
+
+      setChecking(false);
+
+      /*
+       * Continue to Company Profile / Business Roles
+       *
+       * Current project flow uses /business-roles.
+       */
+      navigate("/business-roles");
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message:
+          error?.message ||
+          "Something went wrong while verifying your email.",
+      });
+
+      setChecking(false);
+    }
   };
 
+  /*
+   * Resend verification OTP
+   */
   const resendVerification = async () => {
     if (!email || resendSeconds > 0 || resending) return;
 
     setResending(true);
-    setStatus({ type: "", message: "" });
-
-    const { error } = await supabase.auth.resend({
-      type: "signup",
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/verify-email`,
-      },
+    setStatus({
+      type: "",
+      message: "",
     });
 
-    if (error) {
-      setStatus({ type: "error", message: error.message || "Unable to resend the verification email." });
-    } else {
-      setStatus({
-        type: "success",
-        message: "A new verification email has been sent. Please check your inbox and spam folder.",
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
       });
-      setResendSeconds(60);
+
+      if (error) {
+        setStatus({
+          type: "error",
+          message:
+            error.message ||
+            "Unable to resend the verification code.",
+        });
+      } else {
+        setStatus({
+          type: "success",
+          message:
+            "A new verification code has been sent. Please check your inbox and spam folder.",
+        });
+
+        setOtp("");
+        setResendSeconds(60);
+      }
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message:
+          error?.message ||
+          "Unable to resend the verification code.",
+      });
     }
 
     setResending(false);
@@ -132,46 +203,92 @@ export default function VerifyEmail() {
       step={1}
       left={
         <>
-          <img src={logo} alt="Takshaya" className="auth-logo-image" />
+          <img
+            src={logo}
+            alt="Takshaya"
+            className="auth-logo-image"
+          />
 
           <h2>Check Your Email</h2>
+
           <p>
-            We've sent a verification link to your registered business email.
+            We've sent a 6-digit verification code to your
+            registered business email.
           </p>
 
           <div className="verify-card">
             <div className="verify-icon">📧</div>
+
             <h3>Verify your email</h3>
+
             <p>
-              Click the verification link in your inbox to continue your company registration.
+              Enter the verification code sent to your email
+              to continue your company registration.
             </p>
 
             {email && (
-              <p className="verify-email-address">{email}</p>
+              <p className="verify-email-address">
+                {email}
+              </p>
             )}
 
+            <div className="otp-section">
+              <label htmlFor="email-otp">
+                Verification Code
+              </label>
+
+              <input
+                id="email-otp"
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                value={otp}
+                onChange={handleOtpChange}
+                placeholder="Enter 6-digit code"
+                className="otp-input"
+                aria-label="6-digit email verification code"
+              />
+
+              <div className="otp-helper">
+                Enter the 6-digit code from the email.
+              </div>
+            </div>
+
             {status.message && (
-              <div className={`verify-status ${status.type}`} role="alert">
+              <div
+                className={`verify-status ${status.type}`}
+                role="alert"
+              >
                 {status.message}
               </div>
             )}
 
             <div className="verify-actions">
-              <AuthButton onClick={checkVerification} disabled={checking}>
-                {checking ? "Checking..." : "I've Verified My Email →"}
+              <AuthButton
+                onClick={verifyEmail}
+                disabled={checking || otp.length !== 6}
+              >
+                {checking
+                  ? "Verifying..."
+                  : "Verify Email →"}
               </AuthButton>
 
               <button
                 type="button"
                 className="text-button"
                 onClick={resendVerification}
-                disabled={resending || resendSeconds > 0 || !email}
+                disabled={
+                  resending ||
+                  resendSeconds > 0 ||
+                  !email
+                }
               >
                 {resending
                   ? "Sending..."
                   : resendSeconds > 0
                     ? `Resend available in ${resendSeconds}s`
-                    : "Resend Verification Email"}
+                    : "Resend Verification Code"}
               </button>
             </div>
           </div>
