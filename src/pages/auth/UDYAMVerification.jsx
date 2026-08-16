@@ -1,8 +1,10 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import OnboardingLayout from "../../layouts/OnboardingLayout";
 import AuthButton from "../../components/auth/AuthButton";
+
+import { useOnboarding } from "../../context/OnboardingContext";
 
 import "../../Styles/auth/auth.css";
 import "../../Styles/auth/onboarding.css";
@@ -10,153 +12,311 @@ import "../../Styles/auth/onboarding.css";
 export default function UDYAMVerification() {
   const navigate = useNavigate();
 
-  const [udyam, setUdyam] = useState("");
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState("");
-  const [udyamData, setUdyamData] = useState(null);
+  const {
+    onboarding,
+    updateSection,
+  } = useOnboarding();
 
-  /* =====================================================
-     FORMAT UDYAM
-  ===================================================== */
+  /*
+   * =========================================================
+   * EXISTING UDYAM DATA
+   * =========================================================
+   */
+
+  const existingUdyam =
+    onboarding?.udyam?.udyamNumber || "";
+
+  const [udyam, setUdyam] =
+    useState(existingUdyam);
+
+  const [status, setStatus] =
+    useState(
+      onboarding?.udyam?.verified
+        ? "verified"
+        : existingUdyam
+        ? "pending"
+        : "idle"
+    );
+
+  const [error, setError] =
+    useState("");
+
+  /*
+   * =========================================================
+   * FORMAT UDYAM
+   * =========================================================
+   */
 
   const formatUDYAM = (value) => {
     let cleaned = value
       .toUpperCase()
       .replace(/[^A-Z0-9]/g, "");
 
+    /*
+     * Always make sure UDYAM prefix exists.
+     */
+
     if (!cleaned.startsWith("UDYAM")) {
-      if (cleaned.length > 0) {
-        cleaned = "UDYAM" + cleaned;
-      }
+      cleaned =
+        "UDYAM" + cleaned;
     }
 
-    cleaned = cleaned.slice(0, 19);
+    /*
+     * Remove duplicated UDYAM prefixes.
+     */
+
+    cleaned = cleaned.replace(
+      /^UDYAMUDYAM/,
+      "UDYAM"
+    );
+
+    /*
+     * Maximum raw length:
+     *
+     * UDYAM
+     * + 2 state
+     * + 2 year
+     * + 7 number
+     *
+     * = 16 characters excluding hyphens
+     */
+
+    cleaned =
+      cleaned.slice(0, 16);
+
+    /*
+     * If only UDYAM has been entered.
+     */
 
     if (cleaned.length <= 5) {
       return cleaned;
     }
 
-    let formatted = "UDYAM";
+    const remaining =
+      cleaned.slice(5);
 
-    const remaining = cleaned.slice(5);
+    let formatted =
+      "UDYAM";
+
+    /*
+     * STATE
+     */
 
     if (remaining.length > 0) {
-      formatted += "-";
-      formatted += remaining.slice(0, 2);
+      formatted +=
+        "-" +
+        remaining.slice(0, 2);
     }
+
+    /*
+     * YEAR
+     */
 
     if (remaining.length > 2) {
-      formatted += "-";
-      formatted += remaining.slice(2, 4);
+      formatted +=
+        "-" +
+        remaining.slice(2, 4);
     }
 
+    /*
+     * REGISTRATION NUMBER
+     */
+
     if (remaining.length > 4) {
-      formatted += "-";
-      formatted += remaining.slice(4, 11);
+      formatted +=
+        "-" +
+        remaining.slice(4, 11);
     }
 
     return formatted;
   };
 
-  /* =====================================================
-     VALIDATE UDYAM
-  ===================================================== */
+  /*
+   * =========================================================
+   * VALIDATE UDYAM
+   * =========================================================
+   */
 
   const isValidUDYAM = (value) => {
-    const pattern =
-      /^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/;
-
-    return pattern.test(value);
+    return /^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/.test(
+      value
+    );
   };
 
-  /* =====================================================
-     INPUT CHANGE
-  ===================================================== */
+  /*
+   * =========================================================
+   * INPUT CHANGE
+   * =========================================================
+   */
 
-  const handleUDYAMChange = (event) => {
-    const formatted = formatUDYAM(event.target.value);
+  const handleUDYAMChange = (
+    event
+  ) => {
+    const formatted =
+      formatUDYAM(
+        event.target.value
+      );
 
     setUdyam(formatted);
     setError("");
 
-    if (status !== "idle") {
+    /*
+     * Once user edits the number,
+     * verification must return to pending.
+     */
+
+    if (
+      status === "verified" ||
+      status === "pending"
+    ) {
       setStatus("idle");
-      setUdyamData(null);
     }
   };
 
-  /* =====================================================
-     VERIFY UDYAM
-  ===================================================== */
+  /*
+   * =========================================================
+   * SUBMIT UDYAM FOR MANUAL VERIFICATION
+   * =========================================================
+   */
 
   const handleVerifyUDYAM = () => {
     setError("");
 
+    /*
+     * REQUIRED
+     */
+
     if (!udyam) {
-      setError("Please enter your UDYAM Registration Number.");
+      setError(
+        "Please enter your UDYAM Registration Number."
+      );
+
       return;
     }
+
+    /*
+     * FORMAT VALIDATION
+     */
 
     if (!isValidUDYAM(udyam)) {
       setError(
         "Please enter a valid UDYAM Registration Number."
       );
+
       return;
     }
-
-    setStatus("verifying");
 
     /*
-      MVP VERIFICATION
+     * -------------------------------------------------------
+     * MANUAL VERIFICATION
+     * -------------------------------------------------------
+     *
+     * We are NOT claiming government/API verification.
+     *
+     * The UDYAM number is simply submitted to Takshaya
+     * for manual verification.
+     */
 
-      This is currently a simulated verification.
+    updateSection(
+      "udyam",
+      {
+        udyamNumber: udyam,
 
-      Later this will be replaced by a secure
-      government/API verification service.
-    */
+        verified: false,
 
-    setTimeout(() => {
-      setUdyamData({
-        number: udyam,
-        enterpriseName: "Registered Business",
-        status: "Active",
-        category: "Micro / Small / Medium Enterprise",
-      });
+        enterpriseName: "",
 
-      setStatus("verified");
+        status:
+          "Pending Verification",
 
-      localStorage.setItem(
-        "takshaya_udyam_verification",
-        JSON.stringify({
-          udyam: udyam,
-          verified: true,
-        })
-      );
-    }, 1000);
+        enterpriseCategory: "",
+      }
+    );
+
+    /*
+     * Save local backup as well.
+     */
+
+    localStorage.setItem(
+      "takshaya_udyam_verification",
+      JSON.stringify({
+        udyamNumber: udyam,
+
+        verified: false,
+
+        verificationMethod:
+          "Manual Review",
+
+        status:
+          "Pending Verification",
+      })
+    );
+
+    /*
+     * Show pending state.
+     */
+
+    setStatus("pending");
   };
 
-  /* =====================================================
-     CONTINUE
-  ===================================================== */
+  /*
+   * =========================================================
+   * CONTINUE
+   * =========================================================
+   */
 
   const handleContinue = () => {
-    if (status !== "verified") {
+    /*
+     * UDYAM must have been submitted.
+     */
+
+    if (!isValidUDYAM(udyam)) {
       setError(
-        "Please verify your UDYAM registration before continuing."
+        "Please enter and submit your UDYAM Registration Number before continuing."
       );
+
       return;
     }
 
-    navigate("/factory-address");
+    /*
+     * Make absolutely sure context
+     * contains the UDYAM number.
+     */
+
+    updateSection(
+      "udyam",
+      {
+        udyamNumber: udyam,
+
+        verified: false,
+
+        status:
+          "Pending Verification",
+      }
+    );
+
+    navigate(
+      "/factory-address"
+    );
   };
 
-  /* =====================================================
-     BACK
-  ===================================================== */
+  /*
+   * =========================================================
+   * BACK
+   * =========================================================
+   */
 
   const handleBack = () => {
-    navigate("/pan-verification");
+    navigate(
+      "/pan-verification"
+    );
   };
+
+  /*
+   * =========================================================
+   * PAGE
+   * =========================================================
+   */
 
   return (
     <OnboardingLayout
@@ -164,7 +324,9 @@ export default function UDYAMVerification() {
       left={
         <div className="onboarding-content">
 
-          {/* HEADER */}
+          {/* =================================================
+              HEADER
+          ================================================= */}
 
           <div className="onboarding-header">
 
@@ -173,48 +335,59 @@ export default function UDYAMVerification() {
             </span>
 
             <h2>
-              Verify Your UDYAM
+              UDYAM Verification
             </h2>
 
             <p>
-              Verify your UDYAM Registration Number
-              to establish your MSME business identity
-              on Takshaya.
+              Enter your UDYAM Registration Number.
+              Takshaya will manually verify your
+              registration before approving your
+              business.
             </p>
 
           </div>
 
-          {/* INFORMATION BOX */}
+          {/* =================================================
+              MANUAL VERIFICATION INFORMATION
+          ================================================= */}
 
           <div className="verification-info">
 
             <div className="verification-info-icon">
-              ✓
+              i
             </div>
 
             <div>
 
               <strong>
-                Why do we need your UDYAM?
+                Manual Verification
               </strong>
 
               <p>
-                UDYAM verification helps Takshaya
-                establish your MSME registration and
-                strengthen your verified business profile.
+                Your UDYAM Registration Number
+                will be checked manually by the
+                Takshaya team against official
+                government records.
               </p>
 
             </div>
 
           </div>
 
-          {/* UDYAM INPUT */}
+          {/* =================================================
+              UDYAM INPUT
+          ================================================= */}
 
           <div className="form-field">
 
             <label htmlFor="udyam">
+
               UDYAM Registration Number
-              <span>*</span>
+
+              <span>
+                *
+              </span>
+
             </label>
 
             <input
@@ -222,44 +395,61 @@ export default function UDYAMVerification() {
               name="udyam"
               type="text"
               value={udyam}
-              onChange={handleUDYAMChange}
+              onChange={
+                handleUDYAMChange
+              }
               placeholder="UDYAM-XX-00-0000000"
               maxLength={19}
               autoComplete="off"
             />
 
             <div className="gst-helper">
+
               Example format:
-              <strong> UDYAM-MH-19-0000000</strong>
+
+              <strong>
+                {" "}
+                UDYAM-MH-19-0000000
+              </strong>
+
             </div>
 
           </div>
 
-          {/* ERROR */}
+          {/* =================================================
+              ERROR
+          ================================================= */}
 
           {error && (
-            <div className="verification-error">
+            <div
+              className="verification-error"
+              role="alert"
+            >
               {error}
             </div>
           )}
 
-          {/* VERIFY */}
+          {/* =================================================
+              SUBMIT FOR MANUAL VERIFICATION
+          ================================================= */}
 
-          {status !== "verified" && (
+          {status !== "pending" && (
             <AuthButton
               type="button"
-              disabled={status === "verifying"}
-              onClick={handleVerifyUDYAM}
+              onClick={
+                handleVerifyUDYAM
+              }
             >
-              {status === "verifying"
-                ? "Verifying UDYAM..."
-                : "Verify UDYAM →"}
+              Submit for Manual Verification →
             </AuthButton>
           )}
 
-          {/* SUCCESS */}
+          {/* =================================================
+              PENDING RESULT
+          ================================================= */}
 
-          {status === "verified" && udyamData && (
+          {status === "pending" && (
+
             <div className="gst-result">
 
               <div className="gst-result-header">
@@ -271,13 +461,13 @@ export default function UDYAMVerification() {
                   </span>
 
                   <h3>
-                    Verification Successful
+                    Manual Verification Pending
                   </h3>
 
                 </div>
 
                 <span className="gst-status">
-                  ✓ Active
+                  Pending
                 </span>
 
               </div>
@@ -291,7 +481,7 @@ export default function UDYAMVerification() {
                   </span>
 
                   <strong>
-                    {udyamData.number}
+                    {udyam}
                   </strong>
 
                 </div>
@@ -299,11 +489,11 @@ export default function UDYAMVerification() {
                 <div className="gst-detail-item">
 
                   <span>
-                    ENTERPRISE NAME
+                    VERIFICATION METHOD
                   </span>
 
                   <strong>
-                    {udyamData.enterpriseName}
+                    Manual Review
                   </strong>
 
                 </div>
@@ -311,112 +501,61 @@ export default function UDYAMVerification() {
                 <div className="gst-detail-item">
 
                   <span>
-                    STATUS
+                    CURRENT STATUS
                   </span>
 
                   <strong>
-                    {udyamData.status}
-                  </strong>
-
-                </div>
-
-                <div className="gst-detail-item">
-
-                  <span>
-                    ENTERPRISE CATEGORY
-                  </span>
-
-                  <strong>
-                    {udyamData.category}
+                    Pending Verification
                   </strong>
 
                 </div>
 
               </div>
 
+              <p
+                style={{
+                  marginTop:
+                    "14px",
+                }}
+              >
+                Your UDYAM number has been
+                submitted. The Takshaya team
+                will verify it manually before
+                final business approval.
+              </p>
+
             </div>
           )}
 
-          {/* NAVIGATION */}
+          {/* =================================================
+              NAVIGATION
+          ================================================= */}
 
           <div className="button-group">
 
             <AuthButton
               type="button"
               variant="secondary"
-              onClick={handleBack}
+              onClick={
+                handleBack
+              }
             >
               ← Back
             </AuthButton>
 
             <AuthButton
               type="button"
-              disabled={status !== "verified"}
-              onClick={handleContinue}
+              disabled={
+                !isValidUDYAM(
+                  udyam
+                )
+              }
+              onClick={
+                handleContinue
+              }
             >
               Continue →
             </AuthButton>
-
-          </div>
-
-        </div>
-      }
-
-      right={
-        <div className="onboarding-right-content">
-
-          <span className="onboarding-right-badge">
-            TAKSHAYA
-          </span>
-
-          <h1>
-            Build a
-            <br />
-            Verified Business.
-          </h1>
-
-          <p>
-            A verified business identity helps create
-            confidence between manufacturers, brands,
-            tooling partners and suppliers across the
-            Takshaya ecosystem.
-          </p>
-
-          <div className="onboarding-points">
-
-            <div>
-              <span>✓</span>
-              Verified MSME identity
-            </div>
-
-            <div>
-              <span>✓</span>
-              Stronger company profile
-            </div>
-
-            <div>
-              <span>✓</span>
-              Trusted business relationships
-            </div>
-
-            <div>
-              <span>✓</span>
-              Access to the Takshaya ecosystem
-            </div>
-
-          </div>
-
-          <div className="onboarding-trust">
-
-            <strong>
-              Verification builds trust.
-            </strong>
-
-            <span>
-              Your UDYAM information will become
-              part of your verified Takshaya business
-              profile.
-            </span>
 
           </div>
 

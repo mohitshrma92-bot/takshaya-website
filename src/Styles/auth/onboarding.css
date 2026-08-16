@@ -1168,3 +1168,357 @@
     gap: 0;
   }
 }
+/* =====================================================
+   BUSINESS ROLE SELECTION
+===================================================== */
+
+.role-section {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.role-section-header {
+  margin-bottom: 16px;
+}
+
+.role-section-header h3 {
+  margin: 0 0 6px;
+  color: #0e2340;
+  font-size: 17px;
+}
+
+.role-section-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.role-option:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.role-option.selected {
+  border-color: #0e2340;
+  background: #f1f5f9;
+}
+
+.role-option.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f8fafc;
+}
+
+.role-option input {
+  width: 17px;
+  height: 17px;
+  accent-color: #0e2340;
+  cursor: pointer;
+}
+
+.role-option.disabled input {
+  cursor: not-allowed;
+}
+
+.role-option span {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.role-validation-error {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.role-limit-note {
+  margin-top: 12px;
+  color: #64748b;
+  font-size: 12px;
+  text-align: right;
+}
+
+.role-option input[type="radio"] {
+  accent-color: #0e2340;
+}
+/* =====================================================
+   GST VERIFICATION
+===================================================== */
+
+.gst-verification-note {
+  margin-top: 24px;
+  padding: 16px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.gst-verification-note strong {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #0e2340;
+  font-size: 14px;
+}
+
+.gst-verification-note p {
+  margin: 0;
+
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gst-verification-success {
+  margin: 18px 0;
+  padding: 16px;
+
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+
+  color: #166534;
+}
+
+.gst-verification-success > strong {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.gst-details {
+  display: grid;
+  gap: 12px;
+}
+
+.gst-details div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gst-details span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.gst-details strong {
+  color: #0f172a;
+  font-size: 13px;
+}
+
+.input-helper {
+  margin-top: 6px;
+
+  color: #64748b;
+  font-size: 12px;
+}
+/* =====================================================
+   GST VERIFICATION MVP
+===================================================== */
+
+.gst-verification-step,
+.gst-confirmation {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.gst-verification-step h3,
+.gst-confirmation h3 {
+  margin: 0 0 7px;
+  color: #0e2340;
+  font-size: 15px;
+}
+
+.gst-verification-step p,
+.gst-confirmation p {
+  margin: 0 0 15px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.gst-confirmation-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 16px 0;
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.gst-confirmation-option input {
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  accent-color: #0e2340;
+}
+
+.gst-confirmed-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+}
+/* =====================================================
+   PAN DOCUMENT UPLOAD
+===================================================== */
+
+.upload-box {
+  padding: 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.upload-box p {
+  margin: 0 0 5px;
+  color: #334155;
+  font-size: 14px;
+}
+
+.upload-box small {
+  display: block;
+  margin-bottom: 14px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.upload-box input[type="file"] {
+  width: 100%;
+  font-size: 13px;
+}
+
+.uploaded-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-top: 10px;
+  padding: 10px 12px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+
+  color: #334155;
+  font-size: 12px;
+}
+
+.uploaded-file strong {
+  color: #0e2340;
+}
+
+.uploaded-file span {
+  color: #64748b;
+}
+
+.verification-success {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 13px;
+}
+/* =====================================================
+   MANUAL VERIFICATION
+===================================================== */
+
+.manual-verification-card {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #d7e2ef;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.manual-verification-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e1e8f0;
+}
+
+.manual-verification-header h3 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  color: #0e2340;
+}
+
+.manual-status-badge {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fff4d6;
+  color: #8a6100;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.manual-verification-note {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #eef5ff;
+  color: #4a5f78;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.verification-note {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #dfe7f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.verification-note strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #0e2340;
+  font-size: 14px;
+}
+
+.verification-note p {
+  margin: 0;
+  color: #5d7188;
+  font-size: 13px;
+  line-height: 1.55;
+}

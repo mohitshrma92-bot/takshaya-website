@@ -1,0 +1,653 @@
+/* =========================================================
+   TAKSHAYA PUBLIC WEBSITE
+   Public pages: About / Contact / Legal / Footer
+========================================================= */
+
+:root {
+  --takshaya-navy: #0e2340;
+  --takshaya-navy-dark: #081a31;
+  --takshaya-blue: #2563eb;
+  --takshaya-blue-light: #eff6ff;
+  --takshaya-graphite: #4a4f55;
+  --takshaya-silver: #a6abb2;
+  --takshaya-border: #dce3ec;
+  --takshaya-bg: #f7f9fc;
+  --takshaya-white: #ffffff;
+  --takshaya-green: #00875a;
+}
+
+/* =========================================================
+   PUBLIC PAGE BASE
+========================================================= */
+
+.public-page {
+  min-height: 100vh;
+  background: var(--takshaya-bg);
+  color: var(--takshaya-navy);
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.public-page-hero {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(37, 99, 235, 0.22),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      var(--takshaya-navy-dark),
+      var(--takshaya-navy)
+    );
+
+  color: white;
+  padding: 90px 24px;
+}
+
+.public-page-hero-inner {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.public-eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+
+  color: #8fb4ff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.public-page-hero h1 {
+  max-width: 780px;
+  margin: 0 0 20px;
+
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.public-page-hero p {
+  max-width: 720px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   CONTENT CONTAINER
+========================================================= */
+
+.public-container {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.public-content {
+  padding: 70px 0 90px;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.public-card {
+  background: white;
+  border: 1px solid var(--takshaya-border);
+  border-radius: 16px;
+  padding: 30px;
+
+  box-shadow:
+    0 8px 30px rgba(14, 35, 64, 0.05);
+}
+
+.public-card + .public-card {
+  margin-top: 22px;
+}
+
+.public-card h2 {
+  margin: 0 0 14px;
+
+  color: var(--takshaya-navy);
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.public-card h3 {
+  margin: 24px 0 10px;
+
+  color: var(--takshaya-navy);
+  font-size: 17px;
+}
+
+.public-card p {
+  margin: 0 0 14px;
+
+  color: #5c6877;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.public-card p:last-child {
+  margin-bottom: 0;
+}
+
+.public-card ul {
+  margin: 14px 0 0;
+  padding-left: 20px;
+}
+
+.public-card li {
+  margin-bottom: 10px;
+
+  color: #5c6877;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   TWO COLUMN
+========================================================= */
+
+.public-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.public-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* =========================================================
+   INFO CARDS
+========================================================= */
+
+.public-info-card {
+  padding: 28px;
+
+  background: white;
+  border: 1px solid var(--takshaya-border);
+  border-radius: 16px;
+}
+
+.public-info-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  background: var(--takshaya-blue-light);
+
+  color: var(--takshaya-blue);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.public-info-card h3 {
+  margin: 0 0 10px;
+
+  font-size: 18px;
+  color: var(--takshaya-navy);
+}
+
+.public-info-card p {
+  margin: 0;
+
+  color: #657284;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-intro {
+  max-width: 820px;
+  margin-bottom: 35px;
+}
+
+.about-intro h2 {
+  margin: 0 0 16px;
+
+  font-size: 30px;
+  color: var(--takshaya-navy);
+}
+
+.about-intro p {
+  margin: 0;
+
+  color: #5c6877;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.contact-options {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-option {
+  display: block;
+  padding: 20px;
+
+  background: white;
+  border: 1px solid var(--takshaya-border);
+  border-radius: 14px;
+
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-option:hover {
+  border-color: #b9c8df;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 25px rgba(14, 35, 64, 0.07);
+}
+
+.contact-option strong {
+  display: block;
+  margin-bottom: 6px;
+
+  color: var(--takshaya-navy);
+  font-size: 15px;
+}
+
+.contact-option span {
+  color: #687587;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.contact-form {
+  background: white;
+  border: 1px solid var(--takshaya-border);
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.contact-form h2 {
+  margin: 0 0 8px;
+
+  color: var(--takshaya-navy);
+  font-size: 24px;
+}
+
+.contact-form > p {
+  margin: 0 0 25px;
+
+  color: #687587;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.public-form-group {
+  margin-bottom: 18px;
+}
+
+.public-form-group label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: var(--takshaya-navy);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.public-form-group input,
+.public-form-group select,
+.public-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d5dde8;
+  border-radius: 9px;
+
+  background: white;
+
+  color: var(--takshaya-navy);
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.public-form-group textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.public-form-group input:focus,
+.public-form-group select:focus,
+.public-form-group textarea:focus {
+  border-color: var(--takshaya-blue);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.public-submit-button {
+  width: 100%;
+  border: 0;
+
+  padding: 14px 20px;
+
+  border-radius: 9px;
+
+  background: linear-gradient(
+    135deg,
+    var(--takshaya-navy),
+    var(--takshaya-blue)
+  );
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   LEGAL
+========================================================= */
+
+.legal-page {
+  min-height: calc(100vh - 80px);
+  background: var(--takshaya-bg);
+}
+
+.legal-container {
+  width: min(900px, calc(100% - 48px));
+  margin: 0 auto;
+
+  padding: 70px 0 90px;
+}
+
+.legal-header {
+  margin-bottom: 35px;
+}
+
+.legal-header h1 {
+  margin: 0 0 12px;
+
+  color: var(--takshaya-navy);
+  font-size: clamp(34px, 5vw, 48px);
+  letter-spacing: -0.03em;
+}
+
+.legal-effective {
+  color: #738094;
+  font-size: 13px;
+}
+
+.legal-intro {
+  margin-bottom: 25px;
+
+  color: #5c6877;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.legal-section {
+  background: white;
+
+  border: 1px solid var(--takshaya-border);
+  border-radius: 14px;
+
+  padding: 26px 28px;
+  margin-bottom: 16px;
+}
+
+.legal-section h2 {
+  margin: 0 0 12px;
+
+  color: var(--takshaya-navy);
+  font-size: 19px;
+}
+
+.legal-section p {
+  margin: 0;
+
+  color: #5c6877;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.legal-section ul {
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+.legal-section li {
+  margin-bottom: 8px;
+
+  color: #5c6877;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.legal-footer-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.public-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 0 22px;
+
+  border-radius: 9px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.public-link-primary {
+  background: linear-gradient(
+    135deg,
+    var(--takshaya-navy),
+    var(--takshaya-blue)
+  );
+
+  color: white;
+}
+
+.public-link-secondary {
+  background: white;
+
+  border: 1px solid var(--takshaya-border);
+
+  color: var(--takshaya-navy);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+  background: var(--takshaya-navy-dark);
+  color: white;
+}
+
+.site-footer-main {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+
+  padding: 60px 0 45px;
+
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 45px;
+}
+
+.site-footer-brand img {
+  width: 150px;
+  height: auto;
+
+  margin-bottom: 18px;
+}
+
+.site-footer-brand p {
+  max-width: 330px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.66);
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.site-footer-column h3 {
+  margin: 0 0 16px;
+
+  color: white;
+
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.site-footer-column a {
+  display: block;
+
+  margin-bottom: 11px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 13px;
+
+  text-decoration: none;
+}
+
+.site-footer-column a:hover {
+  color: white;
+}
+
+.site-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-footer-bottom-inner {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+
+  padding: 18px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.site-footer-bottom p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+  .public-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .public-grid,
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .public-page-hero {
+    padding: 65px 20px;
+  }
+
+  .public-container,
+  .site-footer-main,
+  .site-footer-bottom-inner,
+  .legal-container {
+    width: min(100% - 32px, 1120px);
+  }
+
+  .public-content {
+    padding: 45px 0 60px;
+  }
+
+  .public-card,
+  .public-info-card,
+  .contact-form,
+  .legal-section {
+    padding: 22px;
+  }
+
+  .site-footer-main {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .site-footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legal-footer-actions {
+    flex-direction: column;
+  }
+
+  .public-link-button {
+    width: 100%;
+  }
+}

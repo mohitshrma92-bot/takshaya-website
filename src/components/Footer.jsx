@@ -1,53 +1,128 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo/takshaya-logo.png";
+import "../Styles/public.css";
 
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="container footer-grid">
+    <footer className="site-footer">
 
-        {/* Brand */}
-        <div>
-          <img
-            src={logo}
-            alt="Takshaya"
-            className="footer-logo"
-          />
+      <div className="site-footer-main">
+
+        {/* BRAND */}
+
+        <div className="site-footer-brand">
+
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Takshaya"
+            />
+          </Link>
 
           <p>
-            Building India's Manufacturing Backbone through a
-            trusted tooling exchange platform.
+            Building a trusted manufacturing ecosystem that helps
+            businesses access tooling, manufacturing capabilities
+            and industrial partnerships with greater ease.
           </p>
+
         </div>
 
-        {/* Company */}
-        <div>
-          <h3>Company</h3>
+        {/* PLATFORM */}
 
-          <a href="/about">About Us</a>
-          <a href="/contact">Contact Us</a>
+        <div className="site-footer-column">
+
+          <h3>
+            Platform
+          </h3>
+
+          <Link to="/marketplace">
+            Marketplace
+          </Link>
+
+          <Link to="/rfq/create">
+            Create Requirement
+          </Link>
+
+          <Link to="/signup">
+            Join Takshaya
+          </Link>
+
+          <Link to="/login">
+            Login
+          </Link>
+
         </div>
 
-        {/* Legal */}
-        <div>
-          <h3>Legal</h3>
+        {/* COMPANY */}
 
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms &amp; Conditions</a>
+        <div className="site-footer-column">
+
+          <h3>
+            Company
+          </h3>
+
+          <Link to="/about">
+            About Takshaya
+          </Link>
+
+          <Link to="/contact">
+            Contact Us
+          </Link>
+
+          <Link to="/">
+            Industries
+          </Link>
+
+          <Link to="/">
+            Our Journey
+          </Link>
+
         </div>
 
-        {/* Contact */}
-        <div>
-          <h3>Contact</h3>
+        {/* LEGAL */}
 
-          <p>support@takshaya.com</p>
-          <p>Mumbai, Maharashtra, India</p>
+        <div className="site-footer-column">
+
+          <h3>
+            Legal
+          </h3>
+
+          <Link to="/privacy-policy">
+            Privacy Policy
+          </Link>
+
+          <Link to="/terms">
+            Terms & Conditions
+          </Link>
+
+          <Link to="/contact">
+            Support
+          </Link>
+
+          <a href="mailto:support@takshaya.com">
+            support@takshaya.com
+          </a>
+
         </div>
 
       </div>
 
-      <div className="container copyright">
-        © 2026 Takshaya. All Rights Reserved.
+      <div className="site-footer-bottom">
+
+        <div className="site-footer-bottom-inner">
+
+          <p>
+            © {new Date().getFullYear()} Takshaya. All rights reserved.
+          </p>
+
+          <p>
+            Building India's Manufacturing Backbone.
+          </p>
+
+        </div>
+
       </div>
+
     </footer>
   );
 }

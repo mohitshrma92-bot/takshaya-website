@@ -3,267 +3,348 @@ import { useNavigate } from "react-router-dom";
 
 import OnboardingLayout from "../../layouts/OnboardingLayout";
 import AuthButton from "../../components/auth/AuthButton";
+import logo from "../../assets/logo/takshaya-logo.png";
 
-import "../../Styles/auth/auth.css";
-import "../../Styles/auth/onboarding.css";
+import { useOnboarding } from "../../context/OnboardingContext";
 
 export default function FactoryAddress() {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    addressType: "",
-    addressLine1: "",
-    addressLine2: "",
-    city: "",
-    state: "",
-    pinCode: "",
-    country: "India",
-    ownership: "",
-    operationsAtLocation: "",
-    primaryFacility: "",
-  });
+  const {
+    onboarding,
+    setSection,
+  } = useOnboarding();
 
-  const [error, setError] = useState("");
+  /*
+   * ---------------------------------------------------------
+   * EXISTING ADDRESS
+   * ---------------------------------------------------------
+   */
 
-  const states = [
-    "Andhra Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Delhi",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Tamil Nadu",
-    "Telangana",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Other",
-  ];
+  const existingAddresses =
+    Array.isArray(
+      onboarding.factoryAddresses
+    )
+      ? onboarding.factoryAddresses
+      : [];
 
-  const addressTypes = [
-    "Factory",
-    "Manufacturing Unit",
-    "Tool Room",
-    "Warehouse",
-    "Registered Office",
-    "Multiple Locations",
-  ];
+  const existingAddress =
+    existingAddresses[0] || {};
 
-  const ownershipOptions = [
-    "Owned",
-    "Leased / Rented",
-    "Shared",
-    "Customer Premises",
-  ];
+  /*
+   * ---------------------------------------------------------
+   * FORM STATE
+   * ---------------------------------------------------------
+   */
 
-  const operationalLocations = [
-    "Factory",
-    "Manufacturing Unit",
-    "Tool Room",
-  ];
+  const [addressType, setAddressType] =
+    useState(
+      existingAddress.addressType ||
+        "Factory"
+    );
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const [addressLine1, setAddressLine1] =
+    useState(
+      existingAddress.addressLine1 ||
+        ""
+    );
 
-    setForm((current) => ({
-      ...current,
-      [name]: value,
-    }));
+  const [addressLine2, setAddressLine2] =
+    useState(
+      existingAddress.addressLine2 ||
+        ""
+    );
+
+  const [city, setCity] =
+    useState(
+      existingAddress.city ||
+        ""
+    );
+
+  const [state, setState] =
+    useState(
+      existingAddress.state ||
+        ""
+    );
+
+  const [pinCode, setPinCode] =
+    useState(
+      existingAddress.pinCode ||
+        ""
+    );
+
+  const [country, setCountry] =
+    useState(
+      existingAddress.country ||
+        "India"
+    );
+
+  const [error, setError] =
+    useState("");
+
+  /*
+   * ---------------------------------------------------------
+   * CONTINUE
+   * ---------------------------------------------------------
+   */
+
+  const handleContinue = (
+    event
+  ) => {
+    event.preventDefault();
 
     setError("");
-  };
-
-  const handlePinChange = (event) => {
-    const value = event.target.value
-      .replace(/\D/g, "")
-      .slice(0, 6);
-
-    setForm((current) => ({
-      ...current,
-      pinCode: value,
-    }));
-
-    setError("");
-  };
-
-  const validateForm = () => {
-    if (!form.addressType) {
-      return "Please select the location type.";
-    }
-
-    if (!form.addressLine1.trim()) {
-      return "Please enter Address Line 1.";
-    }
-
-    if (form.addressLine1.trim().length < 5) {
-      return "Please enter a complete Address Line 1.";
-    }
-
-    if (!form.city.trim()) {
-      return "Please enter the city.";
-    }
-
-    if (!/^[A-Za-z\s.-]+$/.test(form.city.trim())) {
-      return "Please enter a valid city name.";
-    }
-
-    if (!form.state) {
-      return "Please select the state.";
-    }
-
-    if (!/^\d{6}$/.test(form.pinCode)) {
-      return "Please enter a valid 6-digit PIN code.";
-    }
-
-    if (!form.ownership) {
-      return "Please select the facility ownership type.";
-    }
-
-    if (!form.operationsAtLocation) {
-      return "Please specify whether operations are conducted at this location.";
-    }
-
-    if (!form.primaryFacility) {
-      return "Please specify whether this is your primary operating location.";
-    }
 
     /*
-      Business logic:
+     * Required fields
+     */
 
-      Factory, Manufacturing Unit and Tool Room
-      should normally be operational locations.
-    */
+    if (!addressLine1.trim()) {
+      setError(
+        "Please enter your address."
+      );
 
-    if (
-      operationalLocations.includes(form.addressType) &&
-      form.operationsAtLocation === "No"
-    ) {
-      return `${form.addressType} should have business or manufacturing operations at the location.`;
-    }
-
-    /*
-      A location cannot be the primary operating facility
-      if no business operations are conducted there.
-    */
-
-    if (
-      form.operationsAtLocation === "No" &&
-      form.primaryFacility === "Yes"
-    ) {
-      return "A location cannot be your primary operating facility if no business operations are conducted there.";
-    }
-
-    return "";
-  };
-
-  const handleContinue = () => {
-    const validationError = validateForm();
-
-    if (validationError) {
-      setError(validationError);
       return;
     }
 
+    if (!city.trim()) {
+      setError(
+        "Please enter your city."
+      );
+
+      return;
+    }
+
+    if (!state.trim()) {
+      setError(
+        "Please enter your state."
+      );
+
+      return;
+    }
+
+    if (!pinCode.trim()) {
+      setError(
+        "Please enter your PIN code."
+      );
+
+      return;
+    }
+
+    if (!/^\d{6}$/.test(
+      pinCode.trim()
+    )) {
+      setError(
+        "Please enter a valid 6-digit PIN code."
+      );
+
+      return;
+    }
+
+    /*
+     * -------------------------------------------------------
+     * SAVE ADDRESS
+     * -------------------------------------------------------
+     *
+     * IMPORTANT:
+     *
+     * ReviewSubmit.jsx reads:
+     *
+     * onboarding.factoryAddresses
+     *
+     * So we save directly into that section.
+     *
+     */
+
     const factoryAddress = {
-      ...form,
-      verified: false,
-      savedAt: new Date().toISOString(),
+      id:
+        existingAddress.id ||
+        `${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2, 8)}`,
+
+      addressType,
+
+      addressLine1:
+        addressLine1.trim(),
+
+      addressLine2:
+        addressLine2.trim(),
+
+      city:
+        city.trim(),
+
+      state:
+        state.trim(),
+
+      pinCode:
+        pinCode.trim(),
+
+      country:
+        country.trim(),
     };
 
-    localStorage.setItem(
-      "takshaya_factory_address",
-      JSON.stringify(factoryAddress)
+    setSection(
+      "factoryAddresses",
+      [factoryAddress]
     );
 
-    navigate("/authorized-person");
+    /*
+     * Continue to authorized person.
+     */
+
+    navigate(
+      "/authorized-person"
+    );
   };
 
+  /*
+   * ---------------------------------------------------------
+   * BACK
+   * ---------------------------------------------------------
+   */
+
   const handleBack = () => {
-    navigate("/udyam-verification");
+    navigate(
+      "/udyam-verification"
+    );
   };
+
+  /*
+   * ---------------------------------------------------------
+   * UI
+   * ---------------------------------------------------------
+   */
 
   return (
     <OnboardingLayout
       step={7}
       left={
-        <div className="onboarding-content">
+        <form
+          onSubmit={
+            handleContinue
+          }
+        >
 
-          <div className="onboarding-header">
+          {/* =================================================
+              LOGO
+          ================================================= */}
 
-            <span className="onboarding-eyebrow">
-              FACTORY ADDRESS
-            </span>
+          <img
+            src={logo}
+            alt="Takshaya"
+            className="auth-logo-image"
+          />
 
-            <h2>
-              Tell us where you operate
-            </h2>
+          {/* =================================================
+              HEADER
+          ================================================= */}
 
-            <p>
-              Add your primary business or operating
-              location. This information helps Takshaya
-              build your verified company profile.
-            </p>
+          <span className="onboarding-eyebrow">
+            FACTORY / OPERATING LOCATION
+          </span>
 
-          </div>
+          <h2>
+            Factory Address
+          </h2>
+
+          <p>
+            Add the primary factory or operating
+            location associated with your business.
+          </p>
+
+          {/* =================================================
+              ADDRESS TYPE
+          ================================================= */}
+
+          <label
+            className="auth-label"
+            htmlFor="addressType"
+          >
+            Location Type
+          </label>
+
+          <select
+            id="addressType"
+            className="auth-select"
+            value={
+              addressType
+            }
+            onChange={(event) =>
+              setAddressType(
+                event.target.value
+              )
+            }
+          >
+
+            <option value="Factory">
+              Factory
+            </option>
+
+            <option value="Manufacturing Unit">
+              Manufacturing Unit
+            </option>
+
+            <option value="Plant">
+              Plant
+            </option>
+
+            <option value="Warehouse">
+              Warehouse
+            </option>
+
+            <option value="Office">
+              Office
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+          {/* =================================================
+              ADDRESS LINE 1
+          ================================================= */}
 
           <div className="form-field">
 
-            <label htmlFor="addressType">
-              Location Type <span>*</span>
-            </label>
-
-            <select
-              id="addressType"
-              name="addressType"
-              value={form.addressType}
-              onChange={handleChange}
-              className="auth-select"
+            <label
+              htmlFor="addressLine1"
+              className="auth-label"
             >
-              <option value="">
-                Select location type
-              </option>
-
-              {addressTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-
-          </div>
-
-          <div className="form-field">
-
-            <label htmlFor="addressLine1">
-              Address Line 1 <span>*</span>
+              Address Line 1
+              <span>*</span>
             </label>
 
             <input
               id="addressLine1"
               name="addressLine1"
               type="text"
-              value={form.addressLine1}
-              onChange={handleChange}
-              placeholder="Building / Plot / Street"
+              value={
+                addressLine1
+              }
+              onChange={(event) =>
+                setAddressLine1(
+                  event.target.value
+                )
+              }
+              placeholder="Building, plot, street"
               autoComplete="street-address"
             />
 
           </div>
 
+          {/* =================================================
+              ADDRESS LINE 2
+          ================================================= */}
+
           <div className="form-field">
 
-            <label htmlFor="addressLine2">
+            <label
+              htmlFor="addressLine2"
+              className="auth-label"
+            >
               Address Line 2
             </label>
 
@@ -271,295 +352,288 @@ export default function FactoryAddress() {
               id="addressLine2"
               name="addressLine2"
               type="text"
-              value={form.addressLine2}
-              onChange={handleChange}
-              placeholder="Area / Industrial Estate / Landmark"
+              value={
+                addressLine2
+              }
+              onChange={(event) =>
+                setAddressLine2(
+                  event.target.value
+                )
+              }
+              placeholder="Area, landmark, locality"
             />
 
           </div>
 
-          <div className="form-row">
-
-            <div className="form-field">
-
-              <label htmlFor="city">
-                City <span>*</span>
-              </label>
-
-              <input
-                id="city"
-                name="city"
-                type="text"
-                value={form.city}
-                onChange={handleChange}
-                placeholder="Enter city"
-                autoComplete="address-level2"
-              />
-
-            </div>
-
-            <div className="form-field">
-
-              <label htmlFor="state">
-                State <span>*</span>
-              </label>
-
-              <select
-                id="state"
-                name="state"
-                value={form.state}
-                onChange={handleChange}
-                className="auth-select"
-              >
-                <option value="">
-                  Select state
-                </option>
-
-                {states.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-
-            </div>
-
-          </div>
-
-          <div className="form-row">
-
-            <div className="form-field">
-
-              <label htmlFor="pinCode">
-                PIN Code <span>*</span>
-              </label>
-
-              <input
-                id="pinCode"
-                name="pinCode"
-                type="text"
-                inputMode="numeric"
-                value={form.pinCode}
-                onChange={handlePinChange}
-                placeholder="6-digit PIN"
-                maxLength={6}
-                autoComplete="postal-code"
-              />
-
-            </div>
-
-            <div className="form-field">
-
-              <label htmlFor="country">
-                Country
-              </label>
-
-              <input
-                id="country"
-                name="country"
-                type="text"
-                value={form.country}
-                readOnly
-              />
-
-            </div>
-
-          </div>
+          {/* =================================================
+              CITY
+          ================================================= */}
 
           <div className="form-field">
 
-            <label htmlFor="ownership">
-              Facility Ownership <span>*</span>
+            <label
+              htmlFor="city"
+              className="auth-label"
+            >
+              City
+              <span>*</span>
+            </label>
+
+            <input
+              id="city"
+              name="city"
+              type="text"
+              value={
+                city
+              }
+              onChange={(event) =>
+                setCity(
+                  event.target.value
+                )
+              }
+              placeholder="Enter city"
+              autoComplete="address-level2"
+            />
+
+          </div>
+
+          {/* =================================================
+              STATE
+          ================================================= */}
+
+          <div className="form-field">
+
+            <label
+              htmlFor="state"
+              className="auth-label"
+            >
+              State
+              <span>*</span>
             </label>
 
             <select
-              id="ownership"
-              name="ownership"
-              value={form.ownership}
-              onChange={handleChange}
+              id="state"
               className="auth-select"
+              value={
+                state
+              }
+              onChange={(event) =>
+                setState(
+                  event.target.value
+                )
+              }
             >
+
               <option value="">
-                Select ownership type
+                Select state
               </option>
 
-              {ownershipOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
+              <option value="Andhra Pradesh">
+                Andhra Pradesh
+              </option>
+
+              <option value="Assam">
+                Assam
+              </option>
+
+              <option value="Bihar">
+                Bihar
+              </option>
+
+              <option value="Chhattisgarh">
+                Chhattisgarh
+              </option>
+
+              <option value="Delhi">
+                Delhi
+              </option>
+
+              <option value="Goa">
+                Goa
+              </option>
+
+              <option value="Gujarat">
+                Gujarat
+              </option>
+
+              <option value="Haryana">
+                Haryana
+              </option>
+
+              <option value="Himachal Pradesh">
+                Himachal Pradesh
+              </option>
+
+              <option value="Jharkhand">
+                Jharkhand
+              </option>
+
+              <option value="Karnataka">
+                Karnataka
+              </option>
+
+              <option value="Kerala">
+                Kerala
+              </option>
+
+              <option value="Madhya Pradesh">
+                Madhya Pradesh
+              </option>
+
+              <option value="Maharashtra">
+                Maharashtra
+              </option>
+
+              <option value="Odisha">
+                Odisha
+              </option>
+
+              <option value="Punjab">
+                Punjab
+              </option>
+
+              <option value="Rajasthan">
+                Rajasthan
+              </option>
+
+              <option value="Tamil Nadu">
+                Tamil Nadu
+              </option>
+
+              <option value="Telangana">
+                Telangana
+              </option>
+
+              <option value="Uttar Pradesh">
+                Uttar Pradesh
+              </option>
+
+              <option value="Uttarakhand">
+                Uttarakhand
+              </option>
+
+              <option value="West Bengal">
+                West Bengal
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
             </select>
 
           </div>
 
-          <div className="form-field">
-
-            <label>
-              Are manufacturing / business operations
-              conducted at this location? <span>*</span>
-            </label>
-
-            <div className="radio-group">
-
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="operationsAtLocation"
-                  value="Yes"
-                  checked={
-                    form.operationsAtLocation === "Yes"
-                  }
-                  onChange={handleChange}
-                />
-
-                <span>Yes</span>
-              </label>
-
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="operationsAtLocation"
-                  value="No"
-                  checked={
-                    form.operationsAtLocation === "No"
-                  }
-                  onChange={handleChange}
-                />
-
-                <span>No</span>
-              </label>
-
-            </div>
-
-          </div>
+          {/* =================================================
+              PIN CODE
+          ================================================= */}
 
           <div className="form-field">
 
-            <label>
-              Is this your primary operating location?
-              <span> *</span>
+            <label
+              htmlFor="pinCode"
+              className="auth-label"
+            >
+              PIN Code
+              <span>*</span>
             </label>
 
-            <div className="radio-group">
-
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="primaryFacility"
-                  value="Yes"
-                  checked={
-                    form.primaryFacility === "Yes"
-                  }
-                  onChange={handleChange}
-                />
-
-                <span>Yes</span>
-              </label>
-
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  name="primaryFacility"
-                  value="No"
-                  checked={
-                    form.primaryFacility === "No"
-                  }
-                  onChange={handleChange}
-                />
-
-                <span>No</span>
-              </label>
-
-            </div>
+            <input
+              id="pinCode"
+              name="pinCode"
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              value={
+                pinCode
+              }
+              onChange={(event) =>
+                setPinCode(
+                  event.target.value
+                    .replace(
+                      /\D/g,
+                      ""
+                    )
+                    .slice(
+                      0,
+                      6
+                    )
+                )
+              }
+              placeholder="6-digit PIN code"
+              autoComplete="postal-code"
+            />
 
           </div>
+
+          {/* =================================================
+              COUNTRY
+          ================================================= */}
+
+          <div className="form-field">
+
+            <label
+              htmlFor="country"
+              className="auth-label"
+            >
+              Country
+            </label>
+
+            <input
+              id="country"
+              name="country"
+              type="text"
+              value={
+                country
+              }
+              onChange={(event) =>
+                setCountry(
+                  event.target.value
+                )
+              }
+              autoComplete="country-name"
+            />
+
+          </div>
+
+          {/* =================================================
+              ERROR
+          ================================================= */}
 
           {error && (
-            <div className="verification-error">
+            <div
+              className="auth-error"
+              role="alert"
+            >
               {error}
             </div>
           )}
+
+          {/* =================================================
+              BUTTONS
+          ================================================= */}
 
           <div className="button-group">
 
             <AuthButton
               type="button"
               variant="secondary"
-              onClick={handleBack}
+              onClick={
+                handleBack
+              }
             >
               ← Back
             </AuthButton>
 
             <AuthButton
-              type="button"
-              onClick={handleContinue}
+              type="submit"
             >
-              Save & Continue →
+              Continue →
             </AuthButton>
 
           </div>
 
-        </div>
-      }
-
-      right={
-        <div className="onboarding-right-content">
-
-          <span className="onboarding-right-badge">
-            TAKSHAYA
-          </span>
-
-          <h1>
-            Connect the
-            <br />
-            Physical Network.
-          </h1>
-
-          <p>
-            Takshaya connects verified businesses with
-            manufacturers, tooling partners, suppliers
-            and industrial service providers.
-          </p>
-
-          <div className="onboarding-points">
-
-            <div>
-              <span>✓</span>
-              Verified operating locations
-            </div>
-
-            <div>
-              <span>✓</span>
-              Better manufacturing discovery
-            </div>
-
-            <div>
-              <span>✓</span>
-              Location-based business opportunities
-            </div>
-
-            <div>
-              <span>✓</span>
-              Stronger company verification
-            </div>
-
-          </div>
-
-          <div className="onboarding-trust">
-
-            <strong>
-              Your location matters.
-            </strong>
-
-            <span>
-              A verified operating location helps
-              businesses discover the right manufacturing
-              capabilities and partners.
-            </span>
-
-          </div>
-
-        </div>
+        </form>
       }
     />
   );
