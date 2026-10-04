@@ -1,20 +1,23 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import AuthLayout from "../../layouts/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import logo from "../../assets/logo/takshaya-logo.png";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
     setError("");
@@ -29,14 +32,27 @@ export default function Login() {
       return;
     }
 
-    /*
-      MVP LOGIN
+    setSubmitting(true);
 
-      Authentication will be connected to the backend later.
-      For now we simply allow the user to continue.
-    */
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password,
+    });
 
-    navigate("/dashboard");
+    setSubmitting(false);
+
+    if (signInError) {
+      if (/not confirmed/i.test(signInError.message || "")) {
+        setError(
+          "Please verify your email first. Check your inbox for the verification code."
+        );
+      } else {
+        setError("Incorrect email or password.");
+      }
+      return;
+    }
+
+    navigate(location.state?.from || "/dashboard", { replace: true });
   };
 
   return (
@@ -87,8 +103,8 @@ export default function Login() {
             </Link>
           </div>
 
-          <AuthButton type="submit">
-            Login →
+          <AuthButton type="submit" disabled={submitting}>
+            {submitting ? "Signing in..." : "Login →"}
           </AuthButton>
 
           <div className="auth-footer">

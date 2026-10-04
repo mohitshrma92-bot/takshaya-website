@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 // Public
 import Home from "./pages/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -162,7 +164,11 @@ function App() {
 
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
 
 
@@ -172,12 +178,20 @@ function App() {
 
         <Route
           path="/marketplace"
-          element={<Marketplace />}
+          element={
+            <ProtectedRoute requireApproved>
+              <Marketplace />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/marketplace/tool/:id"
-          element={<ToolDetails />}
+          element={
+            <ProtectedRoute requireApproved>
+              <ToolDetails />
+            </ProtectedRoute>
+          }
         />
 
 
@@ -187,7 +201,11 @@ function App() {
 
         <Route
           path="/rfq/create"
-          element={<RFQCreate />}
+          element={
+            <ProtectedRoute requireApproved>
+              <RFQCreate />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
