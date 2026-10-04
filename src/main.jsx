@@ -6,11 +6,14 @@ import "./auth-qa.css";
 
 import App from "./App";
 import { OnboardingProvider } from "./context/OnboardingContext";
+import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <OnboardingProvider>
-      <App />
-    </OnboardingProvider>
+    <AuthProvider>
+      <OnboardingProvider>
+        <App />
+      </OnboardingProvider>
+    </AuthProvider>
   </StrictMode>
 );

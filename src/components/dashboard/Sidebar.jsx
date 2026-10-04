@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
+import { useOnboarding } from "../../context/OnboardingContext";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const { resetOnboarding } = useOnboarding();
+
+  const handleLogout = async () => {
+    await signOut();
+    // Clear saved onboarding details (PAN, GSTIN, mobile) from this browser.
+    resetOnboarding();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <aside className="sidebar">
 
@@ -39,6 +53,10 @@ export default function Sidebar() {
         <Link to="/settings">
           ⚙ Settings
         </Link>
+
+        <button type="button" onClick={handleLogout}>
+          Log out
+        </button>
 
       </nav>
 

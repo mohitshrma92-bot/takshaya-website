@@ -1576,8 +1576,20 @@
         border-radius: 12px;
     }
 
-    .sidebar a:hover {
+    .sidebar a:hover,
+    .sidebar nav button:hover {
         background: rgba(255, 255, 255, .1);
+    }
+
+    .sidebar nav button {
+        color: white;
+        background: none;
+        border: 0;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        padding: 12px;
+        border-radius: 12px;
     }
 
     .dashboard-main {
