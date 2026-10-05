@@ -66,7 +66,7 @@ export default function Dashboard() {
       )}
 
       {!applicationLoading && !application && (
-        <div className="stat-card">
+        <div className="dashboard-stat-card">
           <h3>Complete your business verification</h3>
           <p>
             Finish onboarding so our team can verify your company.
@@ -81,9 +81,9 @@ export default function Dashboard() {
       {!applicationLoading && application && (
         <div className="dashboard-cards">
 
-          <div className="stat-card">
+          <div className="dashboard-stat-card">
             <h3>Verification status</h3>
-            <h1>{status ? status.label : application.status}</h1>
+            <p className="status-value">{status ? status.label : application.status}</p>
             <p>{status ? status.message : ""}</p>
             {application.status === APPLICATION_STATUS.REJECTED &&
               application.rejection_reason && (
@@ -91,7 +91,7 @@ export default function Dashboard() {
               )}
           </div>
 
-          <div className="stat-card">
+          <div className="dashboard-stat-card">
             <h3>Business roles</h3>
             {roles.length > 0 ? (
               roles.map((role) => <p key={role}>{role}</p>)
@@ -101,7 +101,7 @@ export default function Dashboard() {
           </div>
 
           {isApproved && (
-            <div className="stat-card">
+            <div className="dashboard-stat-card">
               <h3>Get started</h3>
               <p><Link to="/marketplace">Browse the marketplace</Link></p>
               <p><Link to="/rfq/create">Raise a tooling request</Link></p>
