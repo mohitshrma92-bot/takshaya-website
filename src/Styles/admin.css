@@ -1,0 +1,276 @@
+.rv-page {
+  max-width: 1200px;
+  padding: 32px 40px;
+}
+
+.rv-page h1 {
+  margin: 0 0 8px;
+}
+
+.rv-intro {
+  margin: 0 0 20px;
+  color: #475569;
+  max-width: 70ch;
+}
+
+.rv-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rv-filters button {
+  padding: 8px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #0e2340;
+  font: inherit;
+  cursor: pointer;
+}
+
+.rv-filters button.active {
+  background: #0e2340;
+  border-color: #0e2340;
+  color: #fff;
+}
+
+.rv-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.rv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.rv-list button {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #0e2340;
+  font: inherit;
+  cursor: pointer;
+}
+
+.rv-list button.selected {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.25);
+}
+
+.rv-list span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.rv-status {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rv-status.PENDING_REVIEW,
+.rv-status.UNDER_REVIEW {
+  color: #b45309;
+}
+
+.rv-status.APPROVED {
+  color: #15803d;
+}
+
+.rv-status.REJECTED,
+.rv-status.SUSPENDED {
+  color: #b91c1c;
+}
+
+.rv-detail {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 0;
+}
+
+.rv-detail h2 {
+  margin: 0 0 16px;
+}
+
+.rv-detail h3 {
+  margin: 24px 0 10px;
+  font-size: 17px;
+}
+
+.rv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.rv-field {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rv-field span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.rv-field strong {
+  overflow-wrap: anywhere;
+}
+
+.rv-address {
+  margin: 0 0 6px;
+}
+
+.rv-docs,
+.rv-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.rv-docs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.rv-docs small,
+.rv-checks small {
+  color: #64748b;
+}
+
+.rv-docs button {
+  padding: 6px 14px;
+  border: 1px solid #1d4ed8;
+  border-radius: 8px;
+  background: #fff;
+  color: #1d4ed8;
+  font: inherit;
+  cursor: pointer;
+}
+
+.rv-checks label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.rv-checks input {
+  margin-top: 4px;
+}
+
+.rv-label {
+  display: block;
+  margin: 20px 0 6px;
+  font-weight: 600;
+}
+
+.rv-detail textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.rv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.rv-actions button {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rv-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rv-actions .approve {
+  background: #15803d;
+}
+
+.rv-actions .hold {
+  background: #0e2340;
+}
+
+.rv-actions .reject {
+  background: #b91c1c;
+}
+
+.rv-hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.rv-empty {
+  color: #64748b;
+  list-style: none;
+}
+
+.rv-message {
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.rv-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.rv-message.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.rv-page button:focus-visible,
+.rv-page input:focus-visible,
+.rv-page textarea:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .rv-page {
+    padding: 20px 16px;
+  }
+
+  .rv-layout {
+    grid-template-columns: 1fr;
+  }
+}

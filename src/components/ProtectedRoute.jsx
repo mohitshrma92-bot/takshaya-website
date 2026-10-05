@@ -9,15 +9,33 @@ import { useAuth } from "../context/AuthContext";
  * APPROVED (used for the marketplace and RFQs). Unapproved users are
  * sent to the dashboard, which shows their verification status.
  *
+ * requireReviewer: only Takshaya reviewers (platform_admin or
+ * kyc_reviewer in the staff_users table) may open the page.
+ *
  * This only controls what the browser shows. The real protection is the
  * row-level security in supabase/migrations, which is enforced by the
  * database itself.
  */
-export default function ProtectedRoute({ children, requireApproved = false }) {
-  const { session, loading, applicationLoading, isApproved } = useAuth();
+export default function ProtectedRoute({
+  children,
+  requireApproved = false,
+  requireReviewer = false,
+}) {
+  const {
+    session,
+    loading,
+    applicationLoading,
+    isApproved,
+    isReviewer,
+    staffLoading,
+  } = useAuth();
   const location = useLocation();
 
-  if (loading || (session && requireApproved && applicationLoading)) {
+  if (
+    loading ||
+    (session && requireApproved && applicationLoading) ||
+    (session && requireReviewer && staffLoading)
+  ) {
     return (
       <div role="status" style={{ padding: "48px", textAlign: "center" }}>
         Loading...
@@ -33,6 +51,10 @@ export default function ProtectedRoute({ children, requireApproved = false }) {
         state={{ from: location.pathname }}
       />
     );
+  }
+
+  if (requireReviewer && !isReviewer) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   if (requireApproved && !isApproved) {

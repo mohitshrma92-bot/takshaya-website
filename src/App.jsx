@@ -32,6 +32,9 @@ import VerificationSubmitted from "./pages/auth/VerificationSubmitted";
 // Dashboard
 import Dashboard from "./pages/dashboard/Dashboard";
 
+// Admin
+import ReviewApplications from "./pages/admin/ReviewApplications";
+
 // Marketplace
 import Marketplace from "./pages/marketplace/Marketplace";
 import ToolDetails from "./pages/marketplace/ToolDetails";
@@ -167,6 +170,20 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+
+        {/* ==============================
+            ADMIN (Takshaya reviewers only)
+        ============================== */}
+
+        <Route
+          path="/admin/review"
+          element={
+            <ProtectedRoute requireReviewer>
+              <ReviewApplications />
             </ProtectedRoute>
           }
         />

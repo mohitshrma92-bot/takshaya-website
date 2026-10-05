@@ -7,6 +7,10 @@ import AuthButton from "../../components/auth/AuthButton";
 import logo from "../../assets/logo/takshaya-logo.png";
 
 import { useOnboarding } from "../../context/OnboardingContext";
+import {
+  uploadKycDocument,
+  validateKycFile,
+} from "../../lib/kycUpload";
 
 export default function PANVerification() {
   const navigate = useNavigate();
@@ -20,7 +24,11 @@ export default function PANVerification() {
     onboarding.pan?.entityType || "Proprietorship"
   );
 
-  const [document, setDocument] = useState(null);
+  // Saved upload details (not the file itself), so the user can come back.
+  const [document, setDocument] = useState(
+    onboarding.pan?.document?.path ? onboarding.pan.document : null
+  );
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
   const validatePAN = (value) => {
@@ -34,38 +42,33 @@ export default function PANVerification() {
     setError("");
   };
 
-  const handleDocumentChange = (event) => {
+  const handleDocumentChange = async (event) => {
     const file = event.target.files?.[0];
 
     if (!file) {
-      setDocument(null);
       return;
     }
 
-    const allowedTypes = [
-      "application/pdf",
-      "image/jpeg",
-      "image/png",
-    ];
+    const problem = validateKycFile(file);
 
-    const maxSize = 2 * 1024 * 1024;
-
-    if (!allowedTypes.includes(file.type)) {
-      setError("Please upload a PDF, JPG, JPEG or PNG file.");
+    if (problem) {
+      setError(problem);
       event.target.value = "";
-      setDocument(null);
-      return;
-    }
-
-    if (file.size > maxSize) {
-      setError("PAN document must be smaller than 2 MB.");
-      event.target.value = "";
-      setDocument(null);
       return;
     }
 
     setError("");
-    setDocument(file);
+    setUploading(true);
+
+    try {
+      const uploaded = await uploadKycDocument(file, "pan");
+      setDocument(uploaded);
+    } catch (uploadError) {
+      setError(uploadError.message);
+      event.target.value = "";
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleContinue = (event) => {
@@ -82,6 +85,11 @@ export default function PANVerification() {
       setError(
         "Please enter a valid 10-character PAN number."
       );
+      return;
+    }
+
+    if (uploading) {
+      setError("Please wait for the upload to finish.");
       return;
     }
 
@@ -107,6 +115,7 @@ export default function PANVerification() {
       status: "pending",
       holderName: "",
       category: entityType,
+      document,
       documentName: document.name,
       documentType: document.type,
       documentSize: document.size,
@@ -210,6 +219,10 @@ export default function PANVerification() {
               accept=".pdf,.jpg,.jpeg,.png"
               onChange={handleDocumentChange}
             />
+
+            {uploading && (
+              <p role="status">Uploading...</p>
+            )}
 
             {document && (
               <div className="uploaded-file">
