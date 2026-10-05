@@ -5,7 +5,7 @@ import { useOnboarding } from "../../context/OnboardingContext";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const { signOut } = useAuth();
+  const { signOut, isReviewer } = useAuth();
   const { resetOnboarding } = useOnboarding();
 
   const handleLogout = async () => {
@@ -53,6 +53,12 @@ export default function Sidebar() {
         <Link to="/settings">
           ⚙ Settings
         </Link>
+
+        {isReviewer && (
+          <Link to="/admin/review">
+            ✅ Review applications
+          </Link>
+        )}
 
         <button type="button" onClick={handleLogout}>
           Log out

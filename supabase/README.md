@@ -11,6 +11,11 @@ It sets up:
 
 If the unique-index step fails, you have duplicate applications for one user. Remove the extras and run it again.
 
+### Second script (documents and the review screen)
+
+After the first script, run `migrations/002_documents_and_review.sql` the same way.
+**Run it before the website update goes live.** The new submit form saves a list of uploaded documents, and new applications fail until the script has added that column.
+
 ## 2. Make yourself a reviewer
 
 Replace the email with your own sign-up email:

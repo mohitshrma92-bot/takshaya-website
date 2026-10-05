@@ -5,6 +5,12 @@ import OnboardingLayout from "../../layouts/OnboardingLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 import { useOnboarding } from "../../context/OnboardingContext";
+import {
+  DOCUMENT_TYPES,
+  IMAGE_TYPES,
+  uploadKycDocument,
+  validateKycFile,
+} from "../../lib/kycUpload";
 
 import "../../Styles/auth/auth.css";
 
@@ -38,14 +44,57 @@ export default function AuthorizedPerson() {
         ? "yes"
         : "",
 
+    // Saved upload details (not the file itself).
     governmentId:
-      onboarding.authorizedPerson?.governmentId || null,
+      onboarding.authorizedPerson?.governmentId?.path
+        ? onboarding.authorizedPerson.governmentId
+        : null,
 
     profilePhoto:
-      onboarding.authorizedPerson?.profilePhoto || null,
+      onboarding.authorizedPerson?.profilePhoto?.path
+        ? onboarding.authorizedPerson.profilePhoto
+        : null,
   });
 
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = async (
+    event,
+    field,
+    kind,
+    allowedTypes
+  ) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const problem = validateKycFile(file, allowedTypes);
+
+    if (problem) {
+      setError(problem);
+      event.target.value = "";
+      return;
+    }
+
+    setError("");
+    setUploading(true);
+
+    try {
+      const uploaded = await uploadKycDocument(file, kind);
+      setForm((current) => ({
+        ...current,
+        [field]: uploaded,
+      }));
+    } catch (uploadError) {
+      setError(uploadError.message);
+      event.target.value = "";
+    } finally {
+      setUploading(false);
+    }
+  };
 
   /*
    * =====================================================
@@ -96,6 +145,11 @@ export default function AuthorizedPerson() {
     event.preventDefault();
 
     setError("");
+
+    if (uploading) {
+      setError("Please wait for the upload to finish.");
+      return;
+    }
 
     /*
      * FULL NAME
@@ -430,8 +484,9 @@ export default function AuthorizedPerson() {
               </h4>
 
               <p>
-                Upload Aadhaar / Passport /
-                Driving Licence
+                Upload Passport / Driving Licence /
+                Voter ID (or Aadhaar with the first
+                8 digits masked)
                 <br />
 
                 <small>
@@ -443,12 +498,20 @@ export default function AuthorizedPerson() {
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 onChange={(e) =>
-                  handleChange(
+                  handleFileChange(
+                    e,
                     "governmentId",
-                    e.target.files?.[0] || null
+                    "government_id",
+                    DOCUMENT_TYPES
                   )
                 }
               />
+
+              {form.governmentId && (
+                <small>
+                  Uploaded: {form.governmentId.name}
+                </small>
+              )}
 
             </div>
 
@@ -475,12 +538,20 @@ export default function AuthorizedPerson() {
                 type="file"
                 accept=".jpg,.jpeg,.png"
                 onChange={(e) =>
-                  handleChange(
+                  handleFileChange(
+                    e,
                     "profilePhoto",
-                    e.target.files?.[0] || null
+                    "profile_photo",
+                    IMAGE_TYPES
                   )
                 }
               />
+
+              {form.profilePhoto && (
+                <small>
+                  Uploaded: {form.profilePhoto.name}
+                </small>
+              )}
 
             </div>
 

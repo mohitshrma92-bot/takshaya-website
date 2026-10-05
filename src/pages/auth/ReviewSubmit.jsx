@@ -250,6 +250,29 @@ export default function ReviewSubmit() {
               authorizedPerson,
 
             /*
+             * UPLOADED DOCUMENTS (stored privately in Supabase;
+             * only the file locations and names are saved here)
+             */
+
+            documents: [
+              pan?.document?.path
+                ? { ...pan.document, kind: "pan" }
+                : null,
+              authorizedPerson?.governmentId?.path
+                ? {
+                    ...authorizedPerson.governmentId,
+                    kind: "government_id",
+                  }
+                : null,
+              authorizedPerson?.profilePhoto?.path
+                ? {
+                    ...authorizedPerson.profilePhoto,
+                    kind: "profile_photo",
+                  }
+                : null,
+            ].filter(Boolean),
+
+            /*
              * SUBMISSION
              */
 

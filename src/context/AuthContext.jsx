@@ -30,6 +30,10 @@ export function AuthProvider({ children }) {
   const [application, setApplication] = useState(null);
   const [applicationLoading, setApplicationLoading] = useState(false);
 
+  // Takshaya staff role (null for customers).
+  const [staffRole, setStaffRole] = useState(null);
+  const [staffLoading, setStaffLoading] = useState(false);
+
   /*
    * Restore the session on page load and keep it in sync.
    * The callback only stores the session; database calls happen in the
@@ -91,9 +95,37 @@ export function AuthProvider({ children }) {
     loadApplication();
   }, [loadApplication]);
 
+  useEffect(() => {
+    let active = true;
+
+    if (!userId) {
+      setStaffRole(null);
+      setStaffLoading(false);
+      return undefined;
+    }
+
+    setStaffLoading(true);
+
+    supabase
+      .from("staff_users")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!active) return;
+        setStaffRole(error ? null : data?.role ?? null);
+        setStaffLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setApplication(null);
+    setStaffRole(null);
   }, []);
 
   const value = useMemo(
@@ -102,6 +134,10 @@ export function AuthProvider({ children }) {
       user: session?.user ?? null,
       application,
       isApproved: application?.status === APPLICATION_STATUS.APPROVED,
+      staffRole,
+      isReviewer:
+        staffRole === "platform_admin" || staffRole === "kyc_reviewer",
+      staffLoading,
       loading: authLoading,
       applicationLoading,
       refreshApplication: loadApplication,
@@ -112,6 +148,8 @@ export function AuthProvider({ children }) {
       application,
       authLoading,
       applicationLoading,
+      staffRole,
+      staffLoading,
       loadApplication,
       signOut,
     ]
