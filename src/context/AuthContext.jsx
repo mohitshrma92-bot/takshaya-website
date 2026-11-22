@@ -28,11 +28,14 @@ export function AuthProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
 
   const [application, setApplication] = useState(null);
-  const [applicationLoading, setApplicationLoading] = useState(false);
+  const [applicationFetching, setApplicationFetching] = useState(false);
+  // Which user the loaded application belongs to (null = not loaded yet).
+  const [applicationLoadedFor, setApplicationLoadedFor] = useState(null);
 
   // Takshaya staff role (null for customers).
   const [staffRole, setStaffRole] = useState(null);
-  const [staffLoading, setStaffLoading] = useState(false);
+  // Which user the staff role was checked for (null = not checked yet).
+  const [staffLoadedFor, setStaffLoadedFor] = useState(null);
 
   /*
    * Restore the session on page load and keep it in sync.
@@ -66,10 +69,11 @@ export function AuthProvider({ children }) {
   const loadApplication = useCallback(async () => {
     if (!userId) {
       setApplication(null);
+      setApplicationLoadedFor(null);
       return;
     }
 
-    setApplicationLoading(true);
+    setApplicationFetching(true);
 
     const { data, error } = await supabase
       .from("verification_applications")
@@ -88,7 +92,8 @@ export function AuthProvider({ children }) {
       setApplication(data ?? null);
     }
 
-    setApplicationLoading(false);
+    setApplicationFetching(false);
+    setApplicationLoadedFor(userId);
   }, [userId]);
 
   useEffect(() => {
@@ -100,11 +105,9 @@ export function AuthProvider({ children }) {
 
     if (!userId) {
       setStaffRole(null);
-      setStaffLoading(false);
+      setStaffLoadedFor(null);
       return undefined;
     }
-
-    setStaffLoading(true);
 
     supabase
       .from("staff_users")
@@ -113,8 +116,13 @@ export function AuthProvider({ children }) {
       .maybeSingle()
       .then(({ data, error }) => {
         if (!active) return;
+
+        if (error) {
+          console.error("Could not check reviewer role:", error);
+        }
+
         setStaffRole(error ? null : data?.role ?? null);
-        setStaffLoading(false);
+        setStaffLoadedFor(userId);
       });
 
     return () => {
@@ -127,6 +135,17 @@ export function AuthProvider({ children }) {
     setApplication(null);
     setStaffRole(null);
   }, []);
+
+  /*
+   * "Loading" must be true from the moment a user is known until their
+   * data has actually arrived. If these flags only turned on after the
+   * request started, a page opened directly (typed address or refresh)
+   * would briefly look like "not approved" or "not a reviewer" and be
+   * redirected away before the check had even begun.
+   */
+  const applicationLoading =
+    Boolean(userId) && (applicationFetching || applicationLoadedFor !== userId);
+  const staffLoading = Boolean(userId) && staffLoadedFor !== userId;
 
   const value = useMemo(
     () => ({
