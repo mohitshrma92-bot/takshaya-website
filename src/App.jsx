@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Public
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import About from "./pages/About";
@@ -180,6 +181,11 @@ function App() {
         ============================== */}
 
         <Route
+          path="/admin"
+          element={<Navigate to="/admin/review" replace />}
+        />
+
+        <Route
           path="/admin/review"
           element={
             <ProtectedRoute requireReviewer>
@@ -224,6 +230,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Any other address */}
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </BrowserRouter>
